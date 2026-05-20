@@ -4,4 +4,12 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("pages/index.html")
+    values = [{
+        "name": "test",
+        "age": 17
+    },
+    {
+        "name": "test2",
+        "age": 24
+    }]
+    return render_template("pages/test.html", values=values)

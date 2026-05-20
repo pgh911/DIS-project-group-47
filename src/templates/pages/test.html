@@ -1,0 +1,12 @@
+{% block content %}
+    {% for value in values %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ value.name }}</a>
+              <small class="text-muted">{{ value.age }}</small>
+            </div>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
