@@ -1,4 +1,8 @@
 from flask import Flask, render_template
+from database import init_db
+from controllers import ledger
+
+# init_db()
 
 app = Flask(__name__)
 
@@ -13,3 +17,5 @@ def home():
         "age": 24
     }]
     return render_template("pages/test.html", values=values)
+
+app.register_blueprint(ledger.bp)
