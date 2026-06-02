@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from database import init_db
 from controllers import ledger
 
-# init_db()
+init_db()
 
 app = Flask(__name__)
 
