@@ -8,14 +8,17 @@
             Amount
         </th>
         <th>
+            Category
+        </th>
+        <th>
             Description
         </th>
         <th>
-            Created in
+            Created
         </th>
     </tr>
     {% for post in postings %}
-        {{ posting(post.amount, post.description, post.created) }}
+        {{ posting(post.amount, post.description, post.created, post.cid) }}
     {% endfor %}
     
 </table>
