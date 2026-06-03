@@ -22,20 +22,15 @@
         {% from "components/ledger_links.html" import ledger_links %}
 		{{ ledger_links(ledger) }}
         
+
 		</ul>
 		<section>
 			<h2>Postings</h2>
 			<ul>
-				{% for post in postings %}
-                <li>
-					<div>
-						{{ post.amount }}
-                        {{ post.description }}
-                        {{ post.created }}
-                    </div>
-                </li>
-				{% endfor %}
+				{% from "components/posting/posting_table.html" import posting_table %}
+				{{ posting_table(postings) }}
 			</ul>
 		</section>
+		
 		</body>
 </html>
