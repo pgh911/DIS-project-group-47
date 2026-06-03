@@ -93,6 +93,10 @@ def ledger_side(lid):
 
     return render_template("pages/ledger.html", ledger=ledger)
 
+@app.route("/register")
+def register():
+    return render_template("pages/register.html")
+
 app.register_blueprint(ledger.bp)
 
 if __name__ == "__main__":

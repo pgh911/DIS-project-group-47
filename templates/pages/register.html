@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{{ url_for('static', filename='dist/output.css') }}" />
+	</head>
+	<body>
+		<div class="flex h-screen">
+			<div class="w-2/5 bg-white flex items-center justify-center">
+				<!-- Left part of login page-->
+				<div class="w-64 h-70 bg-gray-100 rounded-lg outline-1">
+					<form
+						action="/register"
+						method="POST">
+						<h3>Register</h3>
+
+						<p class="mb-1">Email</p>
+						<input
+							type="text"
+                            required
+                            name="username"
+							class="w-64 h-10 bg-white rounded-lg outline-1 ml-1 mr-1 mb-3" />
+
+						<p class="mb-1">Password</p>
+						<input
+							type="password"
+                            name="password"
+                            required
+							class="w-64 h-10 bg-white rounded-lg outline-1 m-1 mb-3" />
+						<a href="/home">
+                        <input
+							type="password"
+                            name="password"
+                            required
+							class="w-64 h-10 bg-white rounded-lg outline-1 m-1 mb-3" />
+						<a href="/home">
+						<button
+                            type="submit"
+							class="w-64 h-10 bg-black rounded-lg outline-1 m-1 mt-3 text-white">
+							Login
+						</button>
+						</a>
+					</form>
+				</div>
+			</div>
+			<div class="w-3/5 bg-indigo-200"></div>
+		</div>
+	</body>
+</html>
