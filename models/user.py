@@ -1,0 +1,48 @@
+import re
+from database import db_connection
+
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@group47\.[a-zA-Z]{2,}$')
+PASSWORD_REGEX = re.compile(r'^(?=.*[A-Za-z])(?=.*\d).{8,}$')
+
+
+def validate_email(email):
+    return bool(EMAIL_REGEX.match(email))
+
+# ikke sikkert at password skal have regex
+def validate_password(password):
+    return bool(PASSWORD_REGEX.match(password))
+
+
+def create_user(email, password):
+    if not validate_email(email):
+        raise ValueError("Email must be in the format: name@group47.domain")
+
+    conn = db_connection()
+    cur = conn.execute(
+        "INSERT INTO users (email, password) VALUES (?, ?)",
+        (email, password)
+    )
+    conn.commit()
+    user_id = cur.lastrowid
+    conn.close()
+    return user_id
+
+
+def login(email, password):
+    conn = db_connection()
+    user = conn.execute(
+        "SELECT * FROM users WHERE email = ? AND password = ?",
+        (email, password)
+    ).fetchone()
+    conn.close()
+    return user
+
+
+def get_user(uid):
+    conn = db_connection()
+    user = conn.execute(
+        "SELECT * FROM users WHERE uid = ?",
+        (uid,)
+    ).fetchone()
+    conn.close()
+    return user
