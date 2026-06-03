@@ -9,28 +9,28 @@ class Ledger:
 
 def list_ledgers(user_id):
     conn = db_connection()
-    rows = conn.execute(
+    db_ledgers = conn.execute(
         "SELECT * FROM ledgers WHERE user_id = ? ORDER BY lid",
         (user_id,)
     ).fetchall()
     conn.close()
 
     ledgers = []
-    for row in rows:
-        ledgers.append(Ledger(row['lid'], row['ledger_name'], row['user_id']))
+    for db_ledger in db_ledgers:
+        ledgers.append(Ledger(db_ledger['lid'], db_ledger['ledger_name'], db_ledger['user_id']))
     return ledgers
 
 
 def get_ledger(lid):
     conn = db_connection()
-    row = conn.execute(
+    db_ledger = conn.execute(
         "SELECT * FROM ledgers WHERE lid = ?",
         (lid,)
     ).fetchone()
     conn.close()
 
-    if row:
-        return Ledger(row['lid'], row['ledger_name'], row['user_id'])
+    if db_ledger:
+        return Ledger(db_ledger['lid'], db_ledger['ledger_name'], db_ledger['user_id'])
     return None
 
 
