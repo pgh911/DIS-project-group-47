@@ -18,12 +18,11 @@
   </head>
   <body>
     <div class="v-screen">
-        <div class="h-1/5">
-            <h1 class="">Ledgers</h1>
-        </div>
+        {% from "components/header.html" import header %}
+        {{header("Ledgers")}}
 
         <div class="flex h-4/5">
-          
+            {% include "components/logout.html" %}
             {% from "components/ledger.html" import ledger %}
             
             {% for l in ledgers %}

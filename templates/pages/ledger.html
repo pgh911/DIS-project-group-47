@@ -16,7 +16,8 @@
 		<title>Ledger {{ ledger.ledger_name }}</title>
 	</head>
 	<body>
-		<h1>Ledger ({{ ledger.lid }}) : {{ ledger.ledger_name }} </h1>
+		{% from "components/header.html" import header %}
+		{{header(ledger.ledger_name)}}
 		<hr />
         <a href="/ledgers">Gå tilbage</a>
 		</ul>
