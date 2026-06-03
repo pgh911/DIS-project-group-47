@@ -80,19 +80,6 @@ def index():
         ledgers=ledgers
     )
 
-@app.route("/ledger/<int:lid>")
-def ledger_side(lid):
-    conn = db_connection()
-    ledger = conn.execute(
-        "SELECT * FROM ledgers WHERE lid = ?", (lid,)
-    ).fetchone()
-    conn.close()
-
-    if ledger is None:
-        return "Ledger not found", 404
-
-    return render_template("pages/ledger.html", ledger=ledger)
-
 @app.route("/register")
 def register():
     return render_template("pages/register.html")

@@ -25,6 +25,12 @@ def ledger(LedgerId):
     conn = db_connection()
 
     ledger = conn.execute(
-        "SELECT * FROM ledgers WHERE lid = " + str(LedgerId) + " ORDER BY lid"
+        "SELECT * FROM ledgers WHERE lid = ? ORDER BY lid", (LedgerId)
     ).fetchone()
+
+    
+    if ledger is None:
+        return "Ledger not found", 404
+    conn.close()
+
     return render_template('pages/ledger.html', ledger=ledger)
