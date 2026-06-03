@@ -63,10 +63,10 @@ VALUES
     ('Groceries', 1),
     ('Transport', 1),
     ('Entertainment', 1),
-    ('Emergency Fund', 2),
+    ('Stocks', 2),
     ('Vacation Fund', 2),
     ('Salary', 3),
-    ('Freelance', 3),
+    ('Sidegigs', 3),
     ('Investment Returns', 3);
 
 CREATE TABLE
