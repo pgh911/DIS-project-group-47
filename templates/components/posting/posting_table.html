@@ -1,0 +1,22 @@
+
+
+{% from "components/posting/posting.html" import posting %}
+{% macro posting_table(postings) %}
+<table class="w-100">
+    <tr class="text-left">
+        <th>
+            Amount
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Created in
+        </th>
+    </tr>
+    {% for post in postings %}
+        {{ posting(post.amount, post.description, post.created) }}
+    {% endfor %}
+    
+</table>
+{% endmacro %}
