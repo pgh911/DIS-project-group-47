@@ -14,6 +14,14 @@ login_manager = LoginManager(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+@app.route("/")
+def index():
+    return redirect("/login")
+
+@app.route("/register")
+def register():
+    return render_template("pages/register.html")
+
 @login_manager.user_loader
 def load_user(user_id):
     conn = db_connection()
@@ -64,14 +72,12 @@ def login():
     finally:
         conn.close()
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("login"))
 
-@app.route("/")
-def index():
-    return redirect("/login")
-
-@app.route("/register")
-def register():
-    return render_template("pages/register.html")
 
 app.register_blueprint(ledger.bp)
 
