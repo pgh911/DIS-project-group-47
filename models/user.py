@@ -18,6 +18,16 @@ def create_user(email, password):
         raise ValueError("Email must be in the format: name@group47.domain")
 
     conn = db_connection()
+
+    password_exists = conn.execute(
+        "SELECT uid FROM users WHERE email = ?",
+        (email,)
+    ).fetchone()
+
+    if password_exists:
+        conn.close()
+        raise ValueError("A user with that email already exists")
+
     cur = conn.execute(
         "INSERT INTO users (email, password) VALUES (?, ?)",
         (email, password)
