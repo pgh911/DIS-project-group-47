@@ -1,9 +1,9 @@
 from database import db_connection
 
 class Ledger:
-    def __init__(self, id, name, user_id=None):
-        self.id = id
-        self.name = name
+    def __init__(self, lid, ledger_name, user_id=None):
+        self.lid = lid
+        self.ledger_name = ledger_name
         self.user_id = user_id
 
 
