@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Ledgers</title>
+	</head>
+	<body>
+		<h1>Ledgers</h1>
+
+		<!-- ADD LEDGER FORM -->
+		<form
+			method="POST"
+			action="/ledgers">
+			<input
+				type="text"
+				name="ledger_name"
+				placeholder="Enter ledger name"
+				required />
+			<button type="submit">Add Ledger</button>
+		</form>
+
+		<hr />
+
+		<!-- LIST LEDGERS -->
+		<ul>
+			{% for ledger in ledgers %}
+			<li>
+				<a href="/ledgers/{{ ledger.lid }}"> {{ ledger.ledger_name }} </a>
+			</li>
+			{% endfor %}
+		</ul>
+	</body>
+</html>
