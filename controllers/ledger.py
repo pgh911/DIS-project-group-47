@@ -17,7 +17,7 @@ def ledgers():
         return redirect(url_for('ledger.ledgers'))
 
     ledgers = list_ledgers(user_id= current_user.id)
-    return render_template('ledgers.html', ledgers=ledgers)
+    return render_template('pages/ledgers.html', ledgers=ledgers)
 
 @bp.route('/<int:LedgerId>')
 @login_required
@@ -25,7 +25,6 @@ def ledger(LedgerId):
     conn = db_connection()
 
     ledger = get_ledger(LedgerId)
-
     
     if ledger is None:
         return "Ledger not found", 404

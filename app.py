@@ -65,20 +65,9 @@ def login():
         conn.close()
 
 
-# @app.route("/home")
-# def index():
-#     conn = db_connection()
-
-#     ledgers = conn.execute(
-#         "SELECT * FROM ledgers ORDER BY lid"
-#     ).fetchall()
-
-#     conn.close()
-
-#     return render_template(
-#         "pages/index.html",
-#         ledgers=ledgers
-#     )
+@app.route("/")
+def index():
+    return redirect("/login")
 
 @app.route("/register")
 def register():
