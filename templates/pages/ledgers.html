@@ -30,6 +30,7 @@
             {% endfor %}
 
             <form method="POST" action="/ledgers">
+              <input type="hidden" name="action" value="create">
                 <input type="text" name="ledger_name" placeholder="Enter ledger name" required />
                 <button type="submit">Add Ledger</button>
             </form>

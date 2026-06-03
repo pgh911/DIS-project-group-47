@@ -1,29 +1,44 @@
 {% macro ledger(l) %}
 
 <div class="relative w-70 h-70">
-    <a href="/ledgers/{{ l['lid'] }}">
-        <div class="relative flex w-64 h-70 rounded-lg outline-1 hover:text-gray-600 overflow-hidden">
-            <!-- Book spine -->
-            <div class="w-4 bg-gray-400 rounded-l-lg "></div>
-            <!-- Book body -->
-            <div class="flex-1 bg-gray-100">
-                <p class="p-2">{{l["ledger_name"]}}</p>
-            </div>
-        </div>
-        <div class="absolute -top-3 right-8">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" class="w-12 h-12">
-                <path d="M23,27l-8-7l-8,7V5c0-1.105,0.895-2,2-2h12c1.105,0,2,0.895,2,2V27z"/>
-            </svg>
-        </div>
-    </a>
-    <a href="delete">
-        <div class="absolute bottom-2 right-8 transition-all duration-150 hover:drop-shadow-[1px_1px_0px_rgba(150,150,150,1)] hover:-translate-y-0.5">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="w-8 h-8">
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-            </svg>
-        </div>
-    </a>
+	<a href="/ledgers/{{ l['lid'] }}">
+		<div
+			class="relative flex w-64 h-70 rounded-lg outline-1 hover:text-gray-600 overflow-hidden">
+			<!-- Book spine -->
+			<div class="w-4 bg-gray-400 rounded-l-lg"></div>
+			<!-- Book body -->
+			<div class="flex-1 bg-gray-100">
+				<p class="p-2">{{l["ledger_name"]}}</p>
+			</div>
+		</div>
+		<div class="absolute -top-3 right-8">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 30 30"
+				class="w-12 h-12">
+				<path
+					d="M23,27l-8-7l-8,7V5c0-1.105,0.895-2,2-2h12c1.105,0,2,0.895,2,2V27z" />
+			</svg>
+		</div>
+	</a>
+	<form method="POST" action="/ledgers">
+        <input type="hidden" name="action" value="delete">
+        <input type="hidden" name="lid" value="{{ l['lid'] }}">
+		<button type="submit" class=" cursor-pointer">
+			<div
+				class="absolute bottom-2 right-8 transition-all duration-150 hover:drop-shadow-[1px_1px_0px_rgba(150,150,150,1)] hover:-translate-y-0.5">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 16 16"
+					class="w-8 h-8">
+					<path
+						d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+					<path
+						d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+				</svg>
+			</div>
+		</button>
+	</form>
 </div>
 
 {% endmacro %}
