@@ -16,7 +16,7 @@ login_manager.login_view = 'login'
 
 @app.route("/")
 def index():
-    return redirect("/login")
+    return redirect("/ledgers")
 
 @app.route("/register")
 def register():
