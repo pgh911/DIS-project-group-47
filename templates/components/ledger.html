@@ -1,7 +1,12 @@
 {% macro ledger(l) %}
 <a href="/ledgers/{{ l['lid'] }}">
     <div class="w-64 h-70 bg-gray-100 rounded-lg outline-1 m-2.5 hover:text-gray-600">
-        {{l["ledger_name"]}}
+        <p>{{l["ledger_name"]}}</p>
+        
+        <div class="">
+
+    </div>
+
     </div>
 </a>
 {% endmacro %}
