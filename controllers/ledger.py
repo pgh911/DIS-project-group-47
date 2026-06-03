@@ -33,3 +33,17 @@ def ledger(LedgerId):
     conn.close()
 
     return render_template('pages/ledger.html', ledger=ledger, postings=postings)
+
+@bp.route('/<int:LedgerId>/postings')
+@login_required
+def postings(LedgerId):
+    conn = db_connection()
+
+    ledger = get_ledger(LedgerId)
+    postings = list_postings(LedgerId)
+    
+    if ledger is None:
+        return "Ledger not found", 404
+    conn.close()
+
+    return render_template('pages/postings.html', ledger=ledger, postings=postings)

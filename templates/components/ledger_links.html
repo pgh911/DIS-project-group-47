@@ -1,0 +1,19 @@
+{% macro ledger_links(ledger) %}
+<div class="flex gap-4">
+	<a
+		class="rounded-md underline hover:text-gray-600"
+		href="/ledgers/{{ ledger.lid }}"
+		>Overblik</a
+	>
+	<a
+		class="rounded-md underline hover:text-gray-600"
+		href="/ledgers/{{ ledger.lid }}/postings"
+		>Postings</a
+	>
+	<a
+		class="rounded-md underline hover:text-gray-600"
+		href="/ledgers/{{ ledger.lid }}/budget"
+		>Budget</a
+	>
+</div>
+{% endmacro %}

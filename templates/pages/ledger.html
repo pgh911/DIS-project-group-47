@@ -16,23 +16,13 @@
 		<title>Ledger {{ ledger.ledger_name }}</title>
 	</head>
 	<body>
-		<h1>Ledger ({{ ledger.lid }}) : {{ ledger.ledger_name }} </h1>
+		<h1>Ledger: {{ ledger.ledger_name }} </h1>
 		<hr />
-        <a href="/ledgers">Gå tilbage</a>
+        <a href="/ledgers">Go back</a>
+		{% from "components/ledger_links.html" import ledger_links %}
+		{{ ledger_links(ledger) }}
+
 		</ul>
-		<section>
-			<h2>Postings</h2>
-			<ul>
-				{% for post in postings %}
-                <li>
-					<div>
-						{{ post.amount }}
-                        {{ post.description }}
-                        {{ post.created }}
-                    </div>
-                </li>
-				{% endfor %}
-			</ul>
-		</section>
+
 		</body>
 </html>
