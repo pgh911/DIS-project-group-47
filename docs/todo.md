@@ -9,3 +9,7 @@ Budget entry - fetch create delete update
 Create user
 
 - [ ] 
+
+- [ ] Valdemar
+    - [ ] Login page
+    - [ ] Login page
