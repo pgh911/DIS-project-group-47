@@ -1,12 +1,22 @@
 from database import db_connection
+from models.categories import Category, list_categories
 
 class Posting:
-    def __init__(self, pid, lid, cid, amount, description):
+    def __init__(self, pid, lid, cid, amount, description, category):
         self.pid = pid
         self.lid = lid
         self.cid = cid
+        self.category = category
         self.amount = amount
         self.description = description
+
+def find_category(cid, category_list:list[Category]):
+    for CT in category_list:
+        if CT.cid == cid:
+            return CT.category_name
+    print("no match")
+    return cid
+
 
 def list_postings(lid):
     conn = db_connection()
@@ -16,11 +26,19 @@ def list_postings(lid):
     ).fetchall()
     conn.close()
 
+    categories = list_categories(lid)
+
     postings = []
     for db_posting in db_postings:
+        category = find_category(db_posting['cid'], categories)
+
         postings.append(Posting(
-            db_posting['pid'], db_posting['lid'], db_posting['cid'],
-            db_posting['amount'], db_posting['description']
+            pid=db_posting['pid'],
+            lid=db_posting['lid'],
+            cid=db_posting['cid'],
+            category=category,
+            amount=db_posting['amount'],
+            description=db_posting['description'],
         ))
     return postings
 
@@ -32,9 +50,12 @@ def get_posting(pid):
     ).fetchone()
     conn.close()
 
+    categories = list_categories(db_posting['lid'])
+    
     if db_posting:
+        category = find_category(db_posting['cid'], categories)
         return Posting(
-            db_posting['pid'], db_posting['lid'], db_posting['cid'],
+            db_posting['pid'], db_posting['lid'], category,
             db_posting['amount'], db_posting['description']
         )
     return None

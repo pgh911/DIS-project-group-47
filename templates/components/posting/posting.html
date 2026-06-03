@@ -1,11 +1,11 @@
 
-{% macro posting(amount, description, created, cid) %}
+{% macro posting(amount, description, created, cid, category) %}
 <tr>
-    <td>
+    <th scope="row">
         {{ amount }}
-    </td>    
+    </th>    
     <td>
-        {{ cid }}
+        {{ category }}
     </td>
     <td>
         {{ description }}

@@ -1,25 +1,17 @@
-
-
-{% from "components/posting/posting.html" import posting %}
-{% macro posting_table(postings) %}
-<table class="w-100">
-    <tr class="text-left">
-        <th>
-            Amount
-        </th>
-        <th>
-            Category
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            Created
-        </th>
-    </tr>
-    {% for post in postings %}
-        {{ posting(post.amount, post.description, post.created, post.cid) }}
-    {% endfor %}
-    
+{% from "components/posting/posting.html" import posting %} {% macro
+posting_table(postings) %}
+<table class="w-100 table ">
+	<thead class="thead-dark">
+		<tr>
+			<th scope="col">Amount</th>
+			<th scope="col">Category</th>
+			<th scope="col">Description</th>
+			<th scope="col">Created</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for post in postings %} {{ posting(post.amount, post.description,
+		post.created, post.cid, post.category) }} {% endfor %}
+	</tbody>
 </table>
 {% endmacro %}

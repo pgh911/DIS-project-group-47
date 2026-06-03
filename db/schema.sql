@@ -1,14 +1,18 @@
 DROP TABLE IF EXISTS postings;
+
 DROP TABLE IF EXISTS categories;
+
 DROP TABLE IF EXISTS category_types;
+
 DROP TABLE IF EXISTS ledgers;
+
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE
     users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL, 
+        password TEXT NOT NULL,
         created DATETIME DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -17,16 +21,14 @@ INSERT INTO
 VALUES
     (1, "user", "password");
 
-CREATE TABLE ledgers (
-    lid INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    ledger_name TEXT NOT NULL,
-    created DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (user_id) REFERENCES users(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
+CREATE TABLE
+    ledgers (
+        lid INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        ledger_name TEXT NOT NULL,
+        created DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
 
 INSERT INTO
     ledgers (ledger_name, user_id)
@@ -50,24 +52,38 @@ VALUES
 CREATE TABLE
     categories (
         cid INTEGER PRIMARY KEY AUTOINCREMENT,
-        category_name TEXT UNIQUE NOT NULL,
+        category_name TEXT NOT NULL,
         type_id INTEGER NOT NULL,
         created DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (type_id) REFERENCES category_types (type_id)
+        lid INTEGER NOT NULL,
+        
+        FOREIGN KEY (type_id) REFERENCES category_types (type_id),
+        FOREIGN KEY (lid) REFERENCES ledgers (lid) ON DELETE CASCADE,
+        
+        UNIQUE (lid, category_name)
     );
 
 INSERT INTO
-    categories (category_name, type_id)
+    categories (category_name, type_id, lid)
 VALUES
-    ('Rent', 1),
-    ('Groceries', 1),
-    ('Transport', 1),
-    ('Entertainment', 1),
-    ('Stocks', 2),
-    ('Vacation Fund', 2),
-    ('Salary', 3),
-    ('Sidegigs', 3),
-    ('Investment Returns', 3);
+    ('Rent', 1, 1),
+    ('Groceries', 1, 1),
+    ('Transport', 1, 1),
+    ('Entertainment', 1, 1),
+    ('Stocks', 2, 1),
+    ('Vacation Fund', 2, 1),
+    ('Salary', 3, 1),
+    ('Sidegigs', 3, 1),
+    ('Investment Returns', 3, 1),
+    ('Rent', 1, 2),
+    ('Groceries', 1, 2),
+    ('Transport', 1, 2),
+    ('Entertainment', 1, 2),
+    ('Stocks', 2, 2),
+    ('Vacation Fund', 2, 2),
+    ('Salary', 3, 2),
+    ('Sidegigs', 3, 2),
+    ('Investment Returns', 3, 2);
 
 CREATE TABLE
     postings (
