@@ -4,6 +4,13 @@ from database import db_connection
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@group47\.[a-zA-Z]{2,}$')
 PASSWORD_REGEX = re.compile(r'^(?=.*[A-Za-z])(?=.*\d).{8,}$')
 
+class User:
+    def __init__(self, row):
+        self.id = row["id"]
+        self.username = row["username"]
+
+    def get_id(self):
+        return str(self.id)
 
 def validate_email(email):
     return bool(EMAIL_REGEX.match(email))
@@ -55,4 +62,4 @@ def get_user(uid):
         (uid,)
     ).fetchone()
     conn.close()
-    return user
+    return User(user)
