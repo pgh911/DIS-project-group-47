@@ -1,10 +1,11 @@
 import re
 from database import db_connection
+from flask_login import UserMixin
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@group47\.[a-zA-Z]{2,}$')
 PASSWORD_REGEX = re.compile(r'^(?=.*[A-Za-z])(?=.*\d).{8,}$')
 
-class User:
+class User(UserMixin):
     def __init__(self, row):
         self.id = row["id"]
         self.username = row["username"]

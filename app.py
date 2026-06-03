@@ -59,7 +59,7 @@ def login():
         user = User(row)
         login_user(user)
 
-        return redirect(url_for("home"))
+        return redirect(url_for("ledger.ledgers"))
 
     finally:
         conn.close()
