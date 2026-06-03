@@ -8,7 +8,7 @@ def db_connection():
 
 def init_db():
     conn = db_connection()
-    with open("db/ledgers.sql") as f:
+    with open("db/schema.sql") as f:
         conn.executescript(f.read())
     conn.commit()
     conn.close()
