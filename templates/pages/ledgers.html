@@ -1,43 +1,46 @@
 <!doctype html>
 <html>
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ url_for('static', filename='dist/output.css') }}"
-    />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{{ url_for('static', filename='dist/output.css') }}" />
 
-    <title>Ledgers</title>
-  </head>
-  <body>
-    <div class="v-screen">
-        {% from "components/header.html" import header %}
-        {{header("Ledgers")}}
+		<title>Ledgers</title>
+	</head>
+	<body>
+		<div class="">
+			{% from "components/header.html" import header %} {{header("Ledgers")}} {%
+			include "components/logout.html" %}
 
-        <div class="flex">
-            {% include "components/logout.html" %}
-            {% from "components/ledger.html" import ledger %}
-            
-            {% for l in ledgers %}
-                {{ ledger(l) }}
-            {% endfor %}
+			<div class="flex">
+				{% from "components/ledger.html" import ledger %} 
+        
+        {% for l in ledgers %}
+				  {{ ledger(l) }} 
+        {% endfor %}
+			</div>
 
-            <form method="POST" action="/ledgers">
-              <input type="hidden" name="action" value="create">
-                <input type="text" name="ledger_name" placeholder="Enter ledger name" required />
-                <button type="submit">Add Ledger</button>
-            </form>
-          
-        </div>
-
-    </div>
-    
-  </body>
+			<form
+				method="POST"
+				action="/ledgers">
+				<input
+					type="hidden"
+					name="action"
+					value="create" />
+				<input
+					type="text"
+					name="ledger_name"
+					placeholder="Enter ledger name"
+					required />
+				<button type="submit">Add Ledger</button>
+			</form>
+		</div>
+	</body>
 </html>
