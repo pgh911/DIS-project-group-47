@@ -1,0 +1,51 @@
+<!-- templates/layout.html -->
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>{% block title %}My Website{% endblock %}</title>
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+			rel="stylesheet" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{{ url_for('static', filename='dist/output.css') }}" />
+
+		<style>
+			@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+			main {
+				min-height: 100vh;
+			}
+			body {
+				font-family: "Montserrat", sans-serif;
+				font-optical-sizing: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="/logout">Log out</a>
+				<a href="/ledgers">Ledgers</a>
+			</nav>
+		</header>
+
+		<main class="">
+			{% block content %}
+			<!-- Default content (optional) -->
+			{% endblock %}
+		</main>
+
+		<footer>
+			<p>© 2026 Budget tracker</p>
+		</footer>
+	</body>
+</html>

@@ -1,46 +1,34 @@
-<!doctype html>
-<html>
-	<head>
-		<!-- Required meta tags -->
-		<meta charset="utf-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+{% from "components/ledger.html" import ledger %} {% extends "layout.html" %} 
 
-		<link
-			rel="stylesheet"
-			type="text/css"
-			href="{{ url_for('static', filename='dist/output.css') }}" />
+{% block title %}Ledger | {ledger.ledger_name}{% endblock %} 
 
-		<title>Ledgers</title>
-	</head>
-	<body>
-		<div class="">
-			{% from "components/header.html" import header %} {{header("Ledgers")}} {%
-			include "components/logout.html" %}
+{% block content %}
+<div class="py-12 h-12 flex items-center">
+	<form
+		method="POST"
+		action="/ledgers">
+		<input
+			type="hidden"
+			name="action"
+			value="create" />
+		<input
+			type="text"
+			name="ledger_name"
+			placeholder="Enter ledger name"
+			required />
+		<button
+			class="block px-12 py-6 border border-black"
+			type="submit">
+			Add Ledger
+		</button>
+	</form>
+</div>
+<div class="px-24">
+	{% from "components/header.html" import header %} {{header("Ledgers")}}
 
-			<div class="flex">
-				{% from "components/ledger.html" import ledger %} 
-        
-        {% for l in ledgers %}
-				  {{ ledger(l) }} 
-        {% endfor %}
-			</div>
+	<div class="flex flex-row w-full gap-6">
+		{% for l in ledgers %} {{ ledger(l) }} {% endfor %}
+	</div>
+</div>
 
-			<form
-				method="POST"
-				action="/ledgers">
-				<input
-					type="hidden"
-					name="action"
-					value="create" />
-				<input
-					type="text"
-					name="ledger_name"
-					placeholder="Enter ledger name"
-					required />
-				<button type="submit">Add Ledger</button>
-			</form>
-		</div>
-	</body>
-</html>
+{% endblock %}
