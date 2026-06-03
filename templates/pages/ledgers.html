@@ -24,16 +24,10 @@
         </div>
 
         <div class="flex h-4/5">
-        		<form
-			method="POST"
-			action="/ledgers">
-			<input
-				type="text"
-				name="ledger_name"
-				placeholder="Enter ledger name"
-				required />
-			<button type="submit">Add Ledger</button>
-		</form>
+          <form method="POST" action="/ledgers">
+            <input type="text" name="ledger_name" placeholder="Enter ledger name" required />
+            <button type="submit">Add Ledger</button>
+          </form>
             {% from "components/ledger.html" import ledger %}
             
             {% for l in ledgers %}
