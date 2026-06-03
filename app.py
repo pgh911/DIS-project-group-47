@@ -5,12 +5,16 @@ import sqlite3
 
 app = Flask(__name__)
 
-if app.debug:
-    init_db()
+init_db()
 
 # print(app.url_map)
 
 @app.route("/")
+def login():
+    return render_template("pages/login.html")
+
+
+@app.route("/home")
 def index():
     conn = db_connection()
 
