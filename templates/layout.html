@@ -18,7 +18,6 @@
 			rel="stylesheet"
 			type="text/css"
 			href="{{ url_for('static', filename='dist/output.css') }}" />
-
 		<style>
 			@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 			main {
@@ -32,6 +31,9 @@
 	</head>
 	<body>
 		<header>
+			<div>
+				<h1 class="text-xl">Budget app</h1>
+			</div>
 			<nav>
 				<a href="/logout">Log out</a>
 				<a href="/ledgers">Ledgers</a>

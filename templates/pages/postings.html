@@ -1,21 +1,8 @@
-<!doctype html>
-<html>
-	<head>
-		<!-- Required meta tags -->
-		<meta charset="utf-8" />
-		<meta
-		name="viewport"
-		content="width=device-width, initial-scale=1, shrink-to-fit=no"
-		/>
+{% from "components/ledger.html" import ledger %} {% extends "layout.html" %} 
 
-		<link
-		rel="stylesheet"
-		type="text/css"
-		href="{{ url_for('static', filename='dist/output.css') }}"
-		/>
-		<title>Ledger {{ ledger.ledger_name }}</title>
-	</head>
-	<body>
+{% block title %}Ledger | {ledger.ledger_name}{% endblock %} 
+
+{% block content %}
 		<h1>Ledger ({{ ledger.lid }}) : {{ ledger.ledger_name }} </h1>
 		<hr />
         <a href="/ledgers">Gå tilbage</a>
@@ -37,5 +24,4 @@
 				{% endfor %}
 			</ul>
 		</section>
-		</body>
-</html>
+{% endblock %}
