@@ -1,26 +1,6 @@
-# from flask import Flask, render_template
-# from controllers import ledger
-# import sqlite3 
-
-# init_db()
-
-# app = Flask(__name__)
-
-# @app.route("/")
-# def home():
-#     values = [{
-#         "name": "test",
-#         "age": 17
-#     },
-#     {
-#         "name": "test2",
-#         "age": 24
-#     }]
-#     return render_template("pages/test.html", values=values)
-
-# app.register_blueprint(ledger.bp)
-# from database import init_db
 from flask import Flask, render_template
+from controllers import ledger
+from database import init_db, db_connection
 import sqlite3
 
 app = Flask(__name__)
@@ -28,14 +8,11 @@ app = Flask(__name__)
 if app.debug:
     init_db()
 
-def get_db():
-    conn = sqlite3.connect("data.db")
-    conn.row_factory = sqlite3.Row
-    return conn
+# print(app.url_map)
 
 @app.route("/")
 def index():
-    conn = get_db()
+    conn = db_connection()
 
     ledgers = conn.execute(
         "SELECT * FROM ledgers ORDER BY lid"
@@ -47,6 +24,8 @@ def index():
         "index.html",
         ledgers=ledgers
     )
+
+app.register_blueprint(ledger.bp)
 
 if __name__ == "__main__":
     app.run(debug=True)
