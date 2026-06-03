@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ledgers</title>
+</head>
+<body>
+
+<h1>Ledgers</h1>
+
+<ul>
+    {% for ledger in ledgers %}
+        <li>{{ ledger["ledger_name"] }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

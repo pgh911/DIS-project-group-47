@@ -1,4 +1,4 @@
-from database import db_connection
+from init_db import db_connection
 
 class Ledger:
     def __init__(self, id, name):
