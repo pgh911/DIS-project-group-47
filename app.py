@@ -25,7 +25,7 @@ def index():
     conn.close()
 
     return render_template(
-        "index.html",
+        "pages/index.html",
         ledgers=ledgers
     )
 

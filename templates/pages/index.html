@@ -1,11 +1,17 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ledgers</title>
+</head>
+<body>
 
-{% block content %}
-<main class="main-bg">
-    damn sir
-</main>
-{% endblock %}
+<h1>Ledgers</h1>
 
-<script>
-    
-</script>
+<ul>
+    {% for ledger in ledgers %}
+        <li>{{ ledger["ledger_name"] }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
