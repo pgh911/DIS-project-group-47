@@ -7,7 +7,6 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <!-- Bootstrap CSS -->
 
     <link
       rel="stylesheet"
@@ -20,19 +19,22 @@
   <body>
     <div class="v-screen">
         <div class="h-1/5">
-            <h1>Ledgers</h1>
+            <h1 class="">Ledgers</h1>
         </div>
 
         <div class="flex h-4/5">
-          <form method="POST" action="/ledgers">
-            <input type="text" name="ledger_name" placeholder="Enter ledger name" required />
-            <button type="submit">Add Ledger</button>
-          </form>
+          
             {% from "components/ledger.html" import ledger %}
             
             {% for l in ledgers %}
                 {{ ledger(l) }}
             {% endfor %}
+
+            <form method="POST" action="/ledgers">
+                <input type="text" name="ledger_name" placeholder="Enter ledger name" required />
+                <button type="submit">Add Ledger</button>
+            </form>
+          
         </div>
 
     </div>
