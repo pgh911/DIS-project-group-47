@@ -28,7 +28,7 @@ def create_user(email, password):
     conn = db_connection()
 
     password_exists = conn.execute(
-        "SELECT uid FROM users WHERE email = ?",
+        "SELECT id FROM users WHERE username = ?",
         (email,)
     ).fetchone()
 
@@ -37,7 +37,7 @@ def create_user(email, password):
         raise ValueError("A user with that email already exists")
 
     cur = conn.execute(
-        "INSERT INTO users (email, password) VALUES (?, ?)",
+        "INSERT INTO users (username, password) VALUES (?, ?)",
         (email, password)
     )
     conn.commit()
@@ -49,7 +49,7 @@ def create_user(email, password):
 def login(email, password):
     conn = db_connection()
     user = conn.execute(
-        "SELECT * FROM users WHERE email = ? AND password = ?",
+        "SELECT * FROM users WHERE username = ? AND password = ?",
         (email, password)
     ).fetchone()
     conn.close()

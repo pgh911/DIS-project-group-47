@@ -3,7 +3,7 @@ from flask import request, redirect, session, url_for, Flask, render_template
 from controllers import ledger
 from database import init_db, db_connection
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from models.user import User, get_user
+from models.user import User, get_user, create_user
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "supersecretkey"
@@ -18,8 +18,35 @@ login_manager.login_view = 'login'
 def index():
     return redirect("/ledgers")
 
-@app.route("/register")
+@app.route("/register", methods=["POST", "GET"])
 def register():
+    if request.method == "POST":
+        print(request.form)
+        if request.form['password'] != request.form['password_repeat']:
+            return 401 
+        
+        password = request.form['password']
+        username = request.form['email']
+        user_id = create_user(email=username, password=password)
+        
+        if user_id:
+            conn = db_connection()
+            try:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "SELECT * FROM users WHERE username = ? AND password = ?",
+                    (username, password)
+                )
+                row = cursor.fetchone()
+                if row is None:
+                    return render_template("pages/login.html", error="Invalid credentials")
+                user = User(row)
+                login_user(user)
+                return redirect(url_for("ledger.ledgers"))
+            finally:
+                    conn.close()
+        return redirect(url_for('ledger.ledgers'))
+
     return render_template("pages/register.html")
 
 @login_manager.user_loader
