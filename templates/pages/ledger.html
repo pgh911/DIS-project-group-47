@@ -20,5 +20,19 @@
 		<hr />
         <a href="/ledgers">Gå tilbage</a>
 		</ul>
-	</body>
+		<section>
+			<h2>Postings</h2>
+			<ul>
+				{% for post in postings %}
+                <li>
+					<div>
+						{{ post.amount }}
+                        {{ post.description }}
+                        {{ post.created }}
+                    </div>
+                </li>
+				{% endfor %}
+			</ul>
+		</section>
+		</body>
 </html>

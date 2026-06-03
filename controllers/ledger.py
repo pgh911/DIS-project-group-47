@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 
 from models.ledger import insert_ledger, list_ledgers, get_ledger
+from models.posting import Posting, list_postings
 from database import db_connection
 
 bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
@@ -25,9 +26,10 @@ def ledger(LedgerId):
     conn = db_connection()
 
     ledger = get_ledger(LedgerId)
+    postings = list_postings(LedgerId)
     
     if ledger is None:
         return "Ledger not found", 404
     conn.close()
 
-    return render_template('pages/ledger.html', ledger=ledger)
+    return render_template('pages/ledger.html', ledger=ledger, postings=postings)
