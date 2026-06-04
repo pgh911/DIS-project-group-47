@@ -1,17 +1,17 @@
 
-{% macro posting(amount, description, created, cid, category) %}
+{% macro posting(amount, description, created, cid, category, posting_date) %}
 <tr>
-    <th scope="row">
-        {{ amount }}
-    </th>    
+    <th>
+        {{ amount }} kr.
+    </th>
+    <td>
+        {{ posting_date }}
+    </td>
     <td>
         {{ category }}
     </td>
     <td>
         {{ description }}
-    </td>
-    <td>
-        {{ created }}
     </td>
 </tr>
 {% endmacro %}

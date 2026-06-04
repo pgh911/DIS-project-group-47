@@ -39,13 +39,13 @@ VALUES
     ('Investment Returns', 3, 2);
 
 INSERT INTO
-    postings (lid, cid, amount, description)
+    postings (lid, cid, amount, description, posting_date)
 VALUES
-    (1, 7, 3000.00, 'Monthly salary'),
-    (1, 1, -1200.00, 'Rent payment'),
-    (1, 2, -250.00, 'Groceries'),
-    (2, 3, -40.00, 'Bus ticket'),
-    (2, 8, 500.00, 'Freelance gig');
+    (1, 7, 3000.00, 'Monthly salary', "2026-06-04"),
+    (1, 1, -1200.00, 'Rent payment', "2026-06-04"),
+    (1, 2, -250.00, 'Groceries', "2026-06-04"),
+    (2, 3, -40.00, 'Bus ticket', "2026-06-04"),
+    (2, 8, 500.00, 'Freelance gig', "2026-06-04");
 
 
 INSERT INTO 

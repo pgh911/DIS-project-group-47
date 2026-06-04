@@ -4,14 +4,14 @@ posting_table(postings) %}
 	<thead class="thead-dark">
 		<tr>
 			<th scope="col">Amount</th>
+			<th scope="col">Posting date</th>
 			<th scope="col">Category</th>
 			<th scope="col">Description</th>
-			<th scope="col">Created</th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for post in postings %} {{ posting(post.amount, post.description,
-		post.created, post.cid, post.category) }} {% endfor %}
+		post.created, post.cid, post.category, post.posting_date) }} {% endfor %}
 	</tbody>
 </table>
 {% endmacro %}
