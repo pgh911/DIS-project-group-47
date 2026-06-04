@@ -1,33 +1,17 @@
-{% from "components/ledger.html" import ledger %} {% extends "layout.html" %}
+{% from "components/ledgers/ledger.html" import ledger %} {% extends "layout.html" %}
+{% from "components/ledgers/new_ledger.html" import new_ledger %}
 
-{% block title %}Ledger | {ledger.ledger_name}{% endblock %}
+{% block title %} Ledger | {ledger.ledger_name}{% endblock %}
 
 {% block content %}
 
-<div class="py-4 d-flex align-items-center">
-  <form method="POST" action="/ledgers">
-    <input type="hidden" name="action" value="create" />
-    <div class="d-flex gap-2">
-      <input
-        type="text"
-        name="ledger_name"
-        placeholder="Enter ledger name"
-        required
-        class="form-control" />
-      <button
-        class="btn btn-primary"
-        type="submit">
-        Add Ledger
-      </button>
-    </div>
-  </form>
-</div>
 
 <div class="px-5">
   {% from "components/header.html" import header %} {{ header("Ledgers") }}
 
   <div class="d-flex flex-row w-100 gap-3">
     {% for l in ledgers %} {{ ledger(l) }} {% endfor %}
+	{{ new_ledger("")}}
   </div>
 </div>
 
