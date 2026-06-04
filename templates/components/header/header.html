@@ -1,0 +1,14 @@
+{% from "components/header/navbar.html" import navbar %}
+
+{% macro header() %}
+<header class="d-flex">
+    <div>
+        <h1 class="text-xl">Budget app</h1>
+    </div>
+    
+    {{navbar()}}
+    
+    
+
+</header>
+{% endmacro %}

@@ -35,16 +35,8 @@
 		</style>
 	</head>
 	<body>
-		<header>
-			<div>
-				<h1 class="text-xl">Budget app</h1>
-			</div>
-			<nav>
-				<a href="/logout">Log out</a>
-				<a href="/ledgers">Ledgers</a>
-			</nav>
-		</header>
-
+		{% from "components/header/header.html" import header %} 
+		{{ header () }}
 		<main class="">
 			{% block content %}
 			<!-- Default content (optional) -->
