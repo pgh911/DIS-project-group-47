@@ -1,0 +1,31 @@
+{% from "components/ledger.html" import ledger %} 
+{% extends "layout.html" %} 
+
+{% block title %}Ledger | {ledger.ledger_name}{% endblock %} 
+
+{% block content %}
+		<h1>Ledger ({{ ledger.lid }}) : {{ ledger.ledger_name }} </h1>
+		<hr />
+        <a href="/ledgers">Gå tilbage</a>
+        {% from "components/ledger_links.html" import ledger_links %}
+		{{ ledger_links(ledger) }}
+		{# {{ mdebug(ledger.ledger_name) }} #}
+
+
+		</ul>
+		<section>
+			<h2>Budget</h2>
+			<ul>
+				{% for entry in budget %} 
+				<li>
+					bid: {{ entry.bid }}, 
+					lid: {{ entry.lid }}, 
+					cid: {{ entry.cid }}, 
+					year id: {{ entry.year_id }}, 
+					type id: {{ entry.type_id }}, 
+					amount: {{ entry.amount }}
+				</li>
+				{% endfor %}
+			</ul>
+		</section>
+{% endblock %}

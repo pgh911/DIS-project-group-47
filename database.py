@@ -10,6 +10,9 @@ def init_db():
     conn = db_connection()
     with open("db/schema.sql") as f:
         conn.executescript(f.read())
+    
+    with open("db/seed.sql") as f:
+        conn.executescript(f.read())
     conn.commit()
     conn.close()
     print("Database initialized")

@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger
 from models.posting import Posting, list_postings
 from models.categories import Category, CategoryType, list_categories
+from models.budget import BudgetEntry, list_budget_entries
 from database import db_connection
 
 bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
@@ -54,3 +55,20 @@ def postings(LedgerId):
     postings = list_postings(LedgerId)
 
     return render_template('pages/postings.html', ledger=ledger, postings=postings)
+
+
+@bp.route('/<int:LedgerId>/budget')
+@login_required
+def budget(LedgerId):
+    conn = db_connection()
+
+    ledger = get_ledger(LedgerId)
+    
+    if ledger is None:
+        return "Ledger not found", 404
+    conn.close()
+
+    budget = list_budget_entries(LedgerId)
+    print(budget[0].amount)
+
+    return render_template('pages/budget.html', ledger=ledger, budget=budget)
