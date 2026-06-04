@@ -1,27 +1,31 @@
 {% macro ledger(l) %}
+<div class="position-relative" style="width: 200px; height: 200px;">
+    <div class="ledger position-relative rounded-3 overflow-hidden shadow-sm" style="width: 180px; height: 220px; background-color: #f5f0e8;">
+        <div class="position-absolute top-0 start-0 h-100" style="width: 28px; background-color: #5a3e2b; border-radius: 0.375rem 0 0 0.375rem;"></div>
 
-<div class="relative w-70 h-70 transition-all duration-150 hover:drop-shadow-[4px_4px_0px_rgba(150,150,150,1)] hover:-translate-y-0.5">
-    <a href="/ledgers/{{ l['lid'] }}" >
-        <div class="relative flex w-64 h-70 rounded-lg outline-1 hover:text-gray-600 overflow-hidden">
-            <div class="w-4 bg-gray-400 rounded-l-lg "></div>
-            <div class="flex-1 bg-gray-100">
-                <p class="p-2">{{l["ledger_name"]}}</p>
-            </div>
-        </div>
-        <div class="absolute -top-3 right-8">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" class="w-12 h-12">
-                <path d="M23,27l-8-7l-8,7V5c0-1.105,0.895-2,2-2h12c1.105,0,2,0.895,2,2V27z"/>
-            </svg>
-        </div>
-    </a>
-    <a href="delete">
-        <div class="absolute bottom-2 right-8 transition-all duration-100 hover:fill-red-500 hover:drop-shadow-[1px_1px_0px_rgba(150,150,150,1)] hover:-translate-y-0.5">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="w-8 h-8">
+        
+        <a href="delete" class="position-absolute text-danger" style="bottom: 10px; right: 10px; z-index: 10; text-decoration: none; opacity: 0.65;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="#b03a2e">
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                 <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
             </svg>
-        </div>
+        </a>
+
+        
+        <a href="/ledgers/{{ l['lid'] }}" class="text-decoration-none text-dark">
+            <div class="ps-5 pe-2 pt-3">
+                <p class="fw-semibold mb-0 lh-sm" style="font-size: 0.95rem; color: #2c1a0e;">{{ l["ledger_name"] }}</p>
+            </div>
+        </a>
+
+    </div>
+    <a href="/ledgers/{{ l['lid'] }}" class="position-absolute text-warning" style="top: -5px; right: 16px; z-index: 10; text-decoration: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="28" height="28" fill="#e8a838" stroke="#c8881a" stroke-width="1">
+                <path d="M23,27l-8-7l-8,7V5c0-1.105,0.895-2,2-2h12c1.105,0,2,0.895,2,2V27z"/>
+            </svg>
     </a>
+
 </div>
+    
 
 {% endmacro %}
