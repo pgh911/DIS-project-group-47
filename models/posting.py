@@ -15,7 +15,7 @@ def find_category(cid, category_list:list[Category]):
     for CT in category_list:
         if CT.cid == cid:
             return CT.category_name
-    print("no match")
+    print("no match for category_id: " + str(cid) + "\nCategory length is: " + str(len(category_list)))
     return cid
 
 
