@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 
 from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger
-from models.posting import Posting, list_postings
+from models.posting import Posting, list_postings, insert_posting
 from models.categories import Category, CategoryType, list_categories
 from models.budget import BudgetEntry, list_budget_entries, list_budget_years
 # from database import db_connection
@@ -10,6 +10,7 @@ from models.budget import BudgetEntry, list_budget_entries, list_budget_years
 bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
 
 @bp.route('', methods=['GET', 'POST'])
+@login_required
 def ledgers():
     if request.method == 'POST':
 
@@ -23,10 +24,11 @@ def ledgers():
                 ledger_name=ledger_name)
         return redirect(url_for('ledger.ledgers'))
 
-    ledgers = ledgers = list_ledgers(user_id=1)
+    ledgers = ledgers = list_ledgers(user_id=current_user.id)
     return render_template('pages/ledgers.html', ledgers=ledgers)
 
 @bp.route('/<int:LedgerId>')
+@login_required
 def ledger(LedgerId):
 
     ledger = get_ledger(LedgerId)
@@ -37,18 +39,29 @@ def ledger(LedgerId):
         return "Ledger not found", 404
     return render_template('pages/ledger.html', ledger=ledger, postings=postings, categories=categories)
 
-@bp.route('/<int:LedgerId>/postings')
+@bp.route('/<int:LedgerId>/postings', methods=['GET', 'POST'])
+@login_required
 def postings(LedgerId):
     ledger = get_ledger(LedgerId)
-    
+    if request.method == "POST":
+        if request.form["action"] and request.form["action"] == "create_posting":
+            insert_posting(
+                lid=request.form["lid"],
+                cid=request.form["cid"],
+                amount=request.form["amount"],
+                description=request.form["description"],
+                posting_date=request.form["posting_date"]
+            )
     if ledger is None:
         return "Ledger not found", 404
-
+    
+    categories = list_categories(LedgerId)
     postings = list_postings(LedgerId)
-    return render_template('pages/postings.html', ledger=ledger, postings=postings)
+    return render_template('pages/postings.html', ledger=ledger, postings=postings, categories=categories)
 
 
 @bp.route('/<int:LedgerId>/budget', methods=['GET', 'POST'])
+@login_required
 def budget(LedgerId):
     ledger = get_ledger(LedgerId)
 
