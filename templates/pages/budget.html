@@ -1,44 +1,66 @@
-{% extends "layout.html" %} 
+{% extends "layout.html" %}
 
-{% block title %}Ledger | {ledger.ledger_name}{% endblock %} 
+{% block title %}Budget | {{ ledger.ledger_name }}{% endblock %}
 {% from "components/ledger_links.html" import ledger_links %}
+
 {% block content %}
-	<h1>Ledger: {{ ledger.ledger_name }} </h1>
-	<hr />
-	{{ ledger_links(ledger) }}
-	<section>
-		<h2>Budget</h2>
-		<p>
-			Her skal der være en table. <br>
-			Kolonner skal være de katagorier som findes i denne ledger. <br>
-			Rækker skal være måneder i et år. 
-			Man skal som bruger oprette et år manuelt for at indtaste sit budget. <br>
-			Når man opretter et år laver siden en ny tabel med 12 måneder - dvs. 1 tabel pr. år. <br>
-			Cellerne i tabellen skal være inputs. Når en bruger trykker gem sker følgende: 
-			<ol>
-				<li>
-					For hver celle står der et beløb. 
-				</li>
-				<li>
-					Hver celle opretter en række i databasen: (beløb, måned, år, katagori, katagori-type)
-				</li>
-			</ol>
-		</p>
-		<br><br>
-		<div>
-			<h3>Tabeller herunder:</h3>
-			<ul>
-				{% for entry in budget %} 
-				<li>
-					bid: {{ entry.bid }}, 
-					lid: {{ entry.lid }}, 
-					cid: {{ entry.cid }}, 
-					year id: {{ entry.year_id }}, 
-					type id: {{ entry.type_id }}, 
-					amount: {{ entry.amount }}
-				</li>
-				{% endfor %}
-			</ul>
-		</div>
-	</section>
+<h1>Ledger: {{ ledger.ledger_name }}</h1>
+<hr />
+{{ ledger_links(ledger) }}
+
+<section>
+    <h2>Budget</h2>
+
+    <div class="d-flex gap-3 mb-4">
+        <form method="POST">
+            <input type="number" name="year" value="{{ year or 2026 }}" required>
+            <button type="submit" name="action" value="add_year" class="btn btn-success">
+                Add year
+            </button>
+        </form>
+
+        <form method="GET">
+            <input type="number" name="year" value="{{ year or 2026 }}" required>
+            <button type="submit" class="btn btn-primary">
+                Open year
+            </button>
+        </form>
+    </div>
+
+    {% if year %}
+        <h3>Budget for {{ year }}</h3>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    {% for c in categories %}
+                        <th>{{ c.category_name }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for month in months %}
+                <tr>
+                    <td>{{ month.name }}</td>
+
+                    {% for c in categories %}
+                    <td>
+                        <input
+                            type="number"
+                            step="0.01"
+                            class="form-control"
+                            name="amount_{{ month.number }}_{{ c.cid }}"
+                            value="0">
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button class="btn btn-primary">Save budget</button>
+    {% endif %}
+</section>
 {% endblock %}
