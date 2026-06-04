@@ -8,4 +8,15 @@
 <hr />
 {% from "components/ledger_links.html" import ledger_links %}
 {{ ledger_links(ledger) }}
+
+<div>
+    <h3>Categories:</h3>
+    <ul>
+    {% for c in categories %} 
+    <li>
+        {{ c.category_name }}
+    </li>
+    {% endfor %}
+    </ul>
+</div>
 {% endblock %}

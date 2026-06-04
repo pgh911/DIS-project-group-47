@@ -33,10 +33,11 @@ def ledger(LedgerId):
 
     ledger = get_ledger(LedgerId)
     postings = list_postings(LedgerId)
+    categories = list_categories(LedgerId)
     
     if ledger is None:
         return "Ledger not found", 404
-    return render_template('pages/ledger.html', ledger=ledger, postings=postings)
+    return render_template('pages/ledger.html', ledger=ledger, postings=postings, categories=categories)
 
 @bp.route('/<int:LedgerId>/postings')
 @login_required

@@ -14,6 +14,8 @@ def init_db():
         conn.executescript(f.read())
     with open("db/views.sql") as f:
         conn.executescript(f.read())
+    with open("db/triggers.sql") as f:
+        conn.executescript(f.read())
 
     conn.commit()
     conn.close()
