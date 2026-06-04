@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger
 from models.posting import Posting, list_postings
 from models.categories import Category, CategoryType, list_categories
-from models.budget import BudgetEntry, list_budget_entries
+from models.budget import BudgetEntry, list_budget_entries, list_budget_years
 # from database import db_connection
 
 bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
@@ -55,22 +55,6 @@ def budget(LedgerId):
     if ledger is None:
         return "Ledger not found", 404
 
-    categories = list_categories(LedgerId)
-
-    months = [
-        {"number": 1, "name": "January"},
-        {"number": 2, "name": "February"},
-        {"number": 3, "name": "March"},
-        {"number": 4, "name": "April"},
-        {"number": 5, "name": "May"},
-        {"number": 6, "name": "June"},
-        {"number": 7, "name": "July"},
-        {"number": 8, "name": "August"},
-        {"number": 9, "name": "September"},
-        {"number": 10, "name": "October"},
-        {"number": 11, "name": "November"},
-        {"number": 12, "name": "December"},
-    ]
 
     if request.method == "POST":
         action = request.form.get("action")
@@ -80,12 +64,8 @@ def budget(LedgerId):
             #For DATABASE
             return redirect(url_for("ledger.budget", LedgerId=LedgerId, year=year))
 
-    year = request.args.get("year", 2026)
+    categories = list_categories(LedgerId)
+    budget = list_budget_entries(LedgerId)
+    budget_years = list_budget_years(LedgerId)
 
-    return render_template(
-        "pages/budget.html",
-        ledger=ledger,
-        categories=categories,
-        months=months,
-        year=year
-    )
+    return render_template('pages/budget.html', ledger=ledger, budget=budget, budget_years=budget_years, categories=categories)
