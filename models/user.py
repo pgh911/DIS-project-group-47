@@ -20,19 +20,42 @@ def validate_email(email):
 def validate_password(password):
     return bool(PASSWORD_REGEX.match(password))
 
+def list_users():
+    conn = db_connection()
+    db_users = conn.execute(
+        "SELECT * FROM users ORDER BY id"
+    ).fetchall()
+    conn.close()
 
+    users = []
+    for db_user in db_users:
+        users.append(User(db_user))
+    return users
+    
+def get_user(id):
+    conn = db_connection()
+    db_user = conn.execute(
+        "SELECT * FROM users WHERE id = ?",
+        (id,)
+    ).fetchone()
+    conn.close()
+
+    if db_user:
+        return User(db_user)
+    return None
+    
 def create_user(email, password):
     if not validate_email(email):
         raise ValueError("Email must be in the format: name@group47.domain")
 
     conn = db_connection()
 
-    password_exists = conn.execute(
+    existing = conn.execute(
         "SELECT id FROM users WHERE username = ?",
         (email,)
     ).fetchone()
 
-    if password_exists:
+    if existing:
         conn.close()
         raise ValueError("A user with that email already exists")
 
@@ -46,21 +69,18 @@ def create_user(email, password):
     return user_id
 
 
-def login(email, password):
+def login(username, password):
     conn = db_connection()
-    user = conn.execute(
+    db_user = conn.execute(
         "SELECT * FROM users WHERE username = ? AND password = ?",
-        (email, password)
+        (username, password)
     ).fetchone()
     conn.close()
-    return user
+    return db_user
 
 
-def get_user(uid):
+def delete_user(id):
     conn = db_connection()
-    user = conn.execute(
-        "SELECT * FROM users WHERE uid = ?",
-        (uid,)
-    ).fetchone()
+    conn.execute("DELETE FROM users WHERE id = ?", (id,))
+    conn.commit()
     conn.close()
-    return User(user)
