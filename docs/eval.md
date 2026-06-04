@@ -1,9 +1,9 @@
-- [ ] uses git
+- [x] uses git
 - [ ] has E/R diagram
 - [ ] E/R diagram is faithful to the data model
 - [ ] has compilation/execution instructions
 - [ ] has interaction instructions
-- [ ] uses SQL or similar (e.g., SQL Alchemy)
+- [x] uses SQL or similar (e.g., SQL Alchemy)
 - [ ] has regex (or grammar)
 - [ ] app runs and works
 - [ ] AI declaration
