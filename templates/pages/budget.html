@@ -1,20 +1,32 @@
-{% from "components/ledger.html" import ledger %} 
 {% extends "layout.html" %} 
 
 {% block title %}Ledger | {ledger.ledger_name}{% endblock %} 
-
+{% from "components/ledger_links.html" import ledger_links %}
 {% block content %}
-		<h1>Ledger ({{ ledger.lid }}) : {{ ledger.ledger_name }} </h1>
-		<hr />
-        <a href="/ledgers">Gå tilbage</a>
-        {% from "components/ledger_links.html" import ledger_links %}
-		{{ ledger_links(ledger) }}
-		{# {{ mdebug(ledger.ledger_name) }} #}
-
-
-		</ul>
-		<section>
-			<h2>Budget</h2>
+	<h1>Ledger: {{ ledger.ledger_name }} </h1>
+	<hr />
+	{{ ledger_links(ledger) }}
+	<section>
+		<h2>Budget</h2>
+		<p>
+			Her skal der være en table. <br>
+			Kolonner skal være de katagorier som findes i denne ledger. <br>
+			Rækker skal være måneder i et år. 
+			Man skal som bruger oprette et år manuelt for at indtaste sit budget. <br>
+			Når man opretter et år laver siden en ny tabel med 12 måneder - dvs. 1 tabel pr. år. <br>
+			Cellerne i tabellen skal være inputs. Når en bruger trykker gem sker følgende: 
+			<ol>
+				<li>
+					For hver celle står der et beløb. 
+				</li>
+				<li>
+					Hver celle opretter en række i databasen: (beløb, måned, år, katagori, katagori-type)
+				</li>
+			</ol>
+		</p>
+		<br><br>
+		<div>
+			<h3>Tabeller herunder:</h3>
 			<ul>
 				{% for entry in budget %} 
 				<li>
@@ -27,5 +39,6 @@
 				</li>
 				{% endfor %}
 			</ul>
-		</section>
+		</div>
+	</section>
 {% endblock %}

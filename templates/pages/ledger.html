@@ -6,8 +6,6 @@
 <h1>Ledger: {{ ledger.ledger_name }} </h1>
 {% from "components/header.html" import header %}
 <hr />
-<a href="/ledgers">Go back</a>
 {% from "components/ledger_links.html" import ledger_links %}
 {{ ledger_links(ledger) }}
-</ul>
 {% endblock %}

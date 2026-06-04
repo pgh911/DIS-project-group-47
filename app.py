@@ -14,13 +14,6 @@ login_manager = LoginManager(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-@app.context_processor
-def utility_functions():
-    def print_in_console(message):
-        print(str(message))
-
-    return dict(mdebug=print_in_console)
-
 @app.route("/")
 def index():
     return redirect("/ledgers")

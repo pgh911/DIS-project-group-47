@@ -1,21 +1,16 @@
-{% from "components/ledger.html" import ledger %} {% extends "layout.html" %} 
+{% extends "layout.html" %}
 
 {% block title %}Ledger | {ledger.ledger_name}{% endblock %} 
-
+{% from "components/ledger_links.html" import ledger_links %} 
 {% block content %}
-		<h1>Ledger ({{ ledger.lid }}) : {{ ledger.ledger_name }} </h1>
-		<hr />
-        <a href="/ledgers">Gå tilbage</a>
-        {% from "components/ledger_links.html" import ledger_links %}
-		{{ ledger_links(ledger) }}
-        
-
+	<h1>Ledger: {{ ledger.ledger_name }} </h1>
+	<hr />
+	{{ ledger_links(ledger) }}
+	<section>
+		<h2>Postings</h2>
+		<ul>
+			{% from "components/posting/posting_table.html" import posting_table %} {{
+			posting_table(postings) }}
 		</ul>
-		<section>
-			<h2>Postings</h2>
-			<ul>
-				{% from "components/posting/posting_table.html" import posting_table %}
-				{{ posting_table(postings) }}
-			</ul>
-		</section>
+	</section>
 {% endblock %}
