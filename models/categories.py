@@ -1,9 +1,11 @@
 from database import db_connection
 
+
 class CategoryType:
     def __init__(self, type_id, type_name):
         self.type_id = type_id
         self.type_name = type_name
+
 
 class Category:
     def __init__(self, cid, category_name, category_type, created, lid):
@@ -14,50 +16,102 @@ class Category:
         self.lid = lid
 
 
-def find_category_type(type_id, category_type_list:list[CategoryType]):
-    for CT in category_type_list:
-        if CT.type_id == type_id:
-            return CT.type_name
-    return type_id
-    
+def find_category_type(type_id):
+    conn = db_connection()
+    db_type = conn.execute(
+        "SELECT type_name FROM category_types WHERE type_id = ?",
+        (type_id,)
+    ).fetchone()
+    conn.close()
+
+    if db_type:
+        return db_type['type_name']
+    return None
+
 
 def list_category_types():
     conn = db_connection()
-
     db_category_types = conn.execute(
-        "SELECT * FROM category_types",
+        "SELECT * FROM category_types"
     ).fetchall()
-    
     conn.close()
 
-    categories = []
-    for category_type in db_category_types:
-        categories.append(CategoryType(
-            category_type['type_id'], category_type['type_name']
+    category_types = []
+    for db_ct in db_category_types:
+        category_types.append(CategoryType(
+            type_id=db_ct['type_id'],
+            type_name=db_ct['type_name']
         ))
-    return categories
+    return category_types
 
 
 def list_categories(lid):
     conn = db_connection()
-    db_categories:list[Category] = conn.execute(
-        "SELECT * FROM categories WHERE lid = ?",
+    db_categories = conn.execute(
+        "SELECT * FROM categories WHERE lid = ? ORDER BY cid",
         (lid,)
     ).fetchall()
-
     conn.close()
 
-    category_types = list_category_types()
-
     categories = []
-    for category in db_categories:
-        category_type = find_category_type(category['type_id'], category_types)
+    for db_category in db_categories:
+        category_type = find_category_type(db_category['type_id'])
 
         categories.append(Category(
-            cid=category['cid'], 
-            lid=category['lid'], 
-            category_name=category['category_name'],
-            category_type=category_type, 
-            created=category['created']
+            cid=db_category['cid'],
+            category_name=db_category['category_name'],
+            category_type=category_type,
+            created=db_category['created'],
+            lid=db_category['lid']
         ))
     return categories
+
+
+def get_category(cid):
+    conn = db_connection()
+    db_category = conn.execute(
+        "SELECT * FROM categories WHERE cid = ?",
+        (cid,)
+    ).fetchone()
+    conn.close()
+
+    if db_category:
+        category_type = find_category_type(db_category['type_id'])
+
+        return Category(
+            cid=db_category['cid'],
+            category_name=db_category['category_name'],
+            category_type=category_type,
+            created=db_category['created'],
+            lid=db_category['lid']
+        )
+    return None
+
+
+def insert_category(category_name, type_id, lid):
+    conn = db_connection()
+    cur = conn.execute(
+        "INSERT INTO categories (category_name, type_id, lid) VALUES (?, ?, ?)",
+        (category_name, type_id, lid)
+    )
+    conn.commit()
+    category_id = cur.lastrowid
+    conn.close()
+    return category_id
+
+
+def update_category(cid, category_name, type_id):
+    conn = db_connection()
+    conn.execute(
+        "UPDATE categories SET category_name = ?, type_id = ? WHERE cid = ?",
+        (category_name, type_id, cid)
+    )
+    conn.commit()
+    conn.close()
+
+
+def delete_category(cid):
+    conn = db_connection()
+    conn.execute("DELETE FROM categories WHERE cid = ?", (cid,))
+    conn.commit()
+    conn.close()
