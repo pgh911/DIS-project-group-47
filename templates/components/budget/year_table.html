@@ -1,5 +1,68 @@
-{% macro year_table(ledger_year, budget_entry) %}
+{% macro year_table(ledger_year, budget_entries, categories) %}
 <div>
-    {{ledger_year.ledger_year}}
+	<h4>{{ledger_year.ledger_year}}</h4>
+    <button class="btn btn-primary">Save budget year</button>
+	<table class="table">
+		<thead>
+			<tr>
+                <th scope="col">Category</th>
+				<th scope="col">Jan</th>
+				<th scope="col">Feb</th>
+				<th scope="col">Mar</th>
+				<th scope="col">Apr</th>
+				<th scope="col">Maj</th>
+				<th scope="col">Jun</th>
+				<th scope="col">Jul</th>
+				<th scope="col">Aug</th>
+				<th scope="col">Sep</th>
+				<th scope="col">Oct</th>
+				<th scope="col">Nov</th>
+				<th scope="col">Dec</th>
+			</tr>
+		</thead>
+        <tbody>
+            {% for c in categories %}
+            <tr>
+                <th scope="row">{{ c.category_name }}</th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+				<th>
+                    <input class="form-control" type="number" value="0">
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+	</table>
 </div>
 {% endmacro%}

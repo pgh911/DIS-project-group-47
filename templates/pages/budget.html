@@ -26,7 +26,9 @@
 		</p>
 		<br><br>
 		<div>
-			<h3>Tabeller herunder:</h3>
+			<h3>
+				Budget entries (should be removed):
+			</h3>
 			<ul>
 				{% for entry in budget %} 
 				<li>
@@ -39,6 +41,17 @@
 				</li>
 				{% endfor %}
 			</ul>
+			<h3>
+				ledger years
+			</h3>
+			{% from "components/budget/year_table.html" import year_table %}
+			<div>
+				{% for b in budget_years %}
+
+						{{ year_table(b, budget, categories) }}
+					
+				{% endfor %}
+			</div>
 		</div>
 	</section>
 {% endblock %}

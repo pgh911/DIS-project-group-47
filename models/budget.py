@@ -2,8 +2,8 @@ from database import db_connection
 import json
 
 class LedgerYear:
-    def __init__(self, type_id, ledger_year, lid):
-        self.type_id = type_id
+    def __init__(self, year_id, ledger_year, lid):
+        self.year_id = year_id
         self.ledger_year = ledger_year
         self.lid = lid
 
@@ -29,7 +29,7 @@ def list_budget_years(lid):
     budget_years = []
     for entry in db_budget_years:
         budget_years.append(LedgerYear(
-            type_id=entry['type_id'],
+            year_id=entry['year_id'],
             ledger_year=entry['ledger_year'],
             lid=entry['lid']
         ))

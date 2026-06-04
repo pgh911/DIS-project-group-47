@@ -72,4 +72,5 @@ def budget(LedgerId):
 
     budget = list_budget_entries(LedgerId)
     budget_years = list_budget_years(LedgerId)
-    return render_template('pages/budget.html', ledger=ledger, budget=budget, budget_years=budget_years)
+    categories = list_categories(LedgerId)
+    return render_template('pages/budget.html', ledger=ledger, budget=budget, budget_years=budget_years, categories=categories)
