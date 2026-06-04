@@ -1,6 +1,59 @@
-{% macro posting_table(postings) %}
-<form >
+{% macro create_posting_form(ledger, categories) %}
+<form method="POST">
+	<input
+		type="hidden"
+		name="action"
+		value="create_posting" />
+	<input
+		type="hidden"
+		name="lid"
+		required
+		value="{{ ledger.lid }}" />
+	<div class="form-group row">
+		<div class="col">
+			<input
+				required
+				class="form-control"
+				type="number"
+				placeholder="amount dkk"
+				name="amount" />
+		</div>
+		<div class="col">
+			<input
+				class="form-control"
+				required
+				type="date"
+				name="posting_date" />
+		</div>
+		<div class="col">
+			<input
+				class="form-control"
+				type="text"
+				name="description"
+				required
+				placeholder="description" />
+		</div>
 
+		<div class="col">
+			<select
+				class="form-select"
+				name="cid"
+                required
+                aria-placeholder="Select category"
+				aria-label="Select category">
+				{% for category in categories %}
+				<option value="{{ category.cid }}">{{ category.category_name }}</option>
+				{% endfor %}
+			</select>
+		</div>
 
+		<div class="col">
+			<button
+				type="submit"
+				class="btn btn-primary">
+				Create posting
+			</button>
+		</div>
+	</div>
 </form>
 {% endmacro%}

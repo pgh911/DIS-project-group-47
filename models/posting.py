@@ -34,6 +34,7 @@ def list_postings(lid):
 
     postings = []
     for db_posting in db_postings:
+        
         postings.append(Posting(
             pid=db_posting['pid'],
             lid=db_posting['lid'],

@@ -8,6 +8,9 @@
 	{{ ledger_links(ledger) }}
 	<section>
 		<h2>Postings</h2>
+		{% from "components/posting/create_posting.html" import create_posting_form%}
+
+		{{ create_posting_form(ledger, categories) }}
 		<ul>
 			{% from "components/posting/posting_table.html" import posting_table %} {{
 			posting_table(postings) }}

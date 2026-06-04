@@ -5,13 +5,16 @@ posting_table(postings) %}
 		<tr>
 			<th scope="col">Amount</th>
 			<th scope="col">Posting date</th>
+			<th scope="col">Type</th>
 			<th scope="col">Category</th>
 			<th scope="col">Description</th>
 		</tr>
 	</thead>
 	<tbody>
-		{% for post in postings %} {{ posting(post.amount, post.description,
-		post.created, post.cid, post.category, post.posting_date) }} {% endfor %}
+		{% for post in postings %} 
+		{{ posting(post.amount, post.description, post.created, post.cid, post.category_name, post.posting_date, post.type_name) }} 
+		
+		{% endfor %}
 	</tbody>
 </table>
 {% endmacro %}
