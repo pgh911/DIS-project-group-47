@@ -55,6 +55,7 @@ CREATE TABLE
         amount REAL NOT NULL,
         description TEXT,
         created DATETIME DEFAULT CURRENT_TIMESTAMP,
+        posting_date DATE NOT NULL,
         FOREIGN KEY (lid) REFERENCES ledgers (lid) ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (cid) REFERENCES categories (cid) ON DELETE CASCADE ON UPDATE CASCADE
     );

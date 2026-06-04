@@ -2,13 +2,14 @@ from database import db_connection
 from models.categories import Category, list_categories
 
 class Posting:
-    def __init__(self, pid, lid, cid, amount, description, category):
+    def __init__(self, pid, lid, cid, amount, description, category, posting_date):
         self.pid = pid
         self.lid = lid
         self.cid = cid
         self.category = category
         self.amount = amount
         self.description = description
+        self.posting_date = posting_date
 
 def find_category(cid, category_list:list[Category]):
     for CT in category_list:
@@ -39,6 +40,7 @@ def list_postings(lid):
             category=category,
             amount=db_posting['amount'],
             description=db_posting['description'],
+            posting_date=db_posting['posting_date']
         ))
     return postings
 
@@ -54,9 +56,15 @@ def get_posting(pid):
     
     if db_posting:
         category = find_category(db_posting['cid'], categories)
+        
         return Posting(
-            db_posting['pid'], db_posting['lid'], category,
-            db_posting['amount'], db_posting['description']
+            pid=db_posting['pid'],
+            lid=db_posting['lid'],
+            cid=db_posting['cid'],
+            category=category,
+            amount=db_posting['amount'],
+            description=db_posting['description'],
+            posting_date=db_posting['posting_date']
         )
     return None
 
