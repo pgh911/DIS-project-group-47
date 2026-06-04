@@ -9,14 +9,15 @@
 {% from "components/ledger_links.html" import ledger_links %}
 {{ ledger_links(ledger) }}
 
-<div>
-    <h3>Categories:</h3>
-    <ul>
-    {% for c in categories %} 
-    <li>
-        {{ c.category_name }} - {{ c.category_type }}
-    </li>
-    {% endfor %}
-    </ul>
+<div class="category-section">
+    <h3>Categories</h3>
+
+    <div class="category-grid">
+        {% for c in categories %} 
+            <div class="category-card">
+                <span>{{ c.category_name }}</span>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
