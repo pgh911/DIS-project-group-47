@@ -1,15 +1,9 @@
 DROP TABLE IF EXISTS budget_entries;
-
 DROP TABLE IF EXISTS ledger_years;
-
 DROP TABLE IF EXISTS postings;
-
 DROP TABLE IF EXISTS categories;
-
 DROP TABLE IF EXISTS category_types;
-
 DROP TABLE IF EXISTS ledgers;
-
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE
@@ -65,6 +59,8 @@ CREATE TABLE
         year_id INTEGER PRIMARY KEY AUTOINCREMENT,
         ledger_year INTEGER NOT NULL,
         lid INTEGER NOT NULL,
+
+        UNIQUE (lid, ledger_year),
         FOREIGN KEY (lid) REFERENCES ledgers (lid) ON DELETE CASCADE ON UPDATE CASCADE
     );
 

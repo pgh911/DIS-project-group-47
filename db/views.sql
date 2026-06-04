@@ -1,3 +1,6 @@
+DROP VIEW IF EXISTS posting_details;
+DROP VIEW IF EXISTS posting_sum;
+
 CREATE VIEW
     posting_details AS
 SELECT
