@@ -37,43 +37,4 @@ block content %}
 		</div>
 	</div>
 </section>
-
-<!-- <section>
-    <h2>Budget</h2>
-    {% if year %}
-        <h3>Budget for {{ year }}</h3>
-
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Month</th>
-                    {% for c in categories %}
-                        <th>{{ c.category_name }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for month in months %}
-                <tr>
-                    <td>{{ month.name }}</td>
-
-                    {% for c in categories %}
-                    <td>
-                        <input
-                            type="number"
-                            step="0.01"
-                            class="form-control"
-                            name="amount_{{ month.number }}_{{ c.cid }}"
-                            value="0">
-                    </td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <button class="btn btn-primary">Save budget</button>
-    {% endif %}
-</section> -->
 {% endblock %}
