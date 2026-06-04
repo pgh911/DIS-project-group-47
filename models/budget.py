@@ -16,6 +16,26 @@ class BudgetEntry:
         self.type_id = type_id
         self.amount = amount
 
+def list_budget_years(lid):
+    conn = db_connection()
+
+    db_budget_years = conn.execute(
+        "SELECT * FROM ledger_years WHERE lid = ?",
+        (lid,)
+    ).fetchall()
+    
+    conn.close()
+
+    budget_years = []
+    for entry in db_budget_years:
+        budget_years.append(LedgerYear(
+            type_id=entry['type_id'],
+            ledger_year=entry['ledger_year'],
+            lid=entry['lid']
+        ))
+    
+    return budget_years
+
 def list_budget_entries(lid):
     conn = db_connection()
 

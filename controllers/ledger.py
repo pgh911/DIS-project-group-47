@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger
 from models.posting import Posting, list_postings, insert_posting
 from models.categories import Category, CategoryType, list_categories
-from models.budget import BudgetEntry, list_budget_entries
+from models.budget import BudgetEntry, list_budget_entries, list_budget_years
 # from database import db_connection
 
 bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
@@ -71,4 +71,5 @@ def budget(LedgerId):
         return "Ledger not found", 404
 
     budget = list_budget_entries(LedgerId)
-    return render_template('pages/budget.html', ledger=ledger, budget=budget)
+    budget_years = list_budget_years(LedgerId)
+    return render_template('pages/budget.html', ledger=ledger, budget=budget, budget_years=budget_years)
