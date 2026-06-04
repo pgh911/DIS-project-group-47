@@ -29,7 +29,7 @@ def list_budget_years(lid):
     budget_years = []
     for entry in db_budget_years:
         budget_years.append(LedgerYear(
-            type_id=entry['type_id'],
+            year_id=entry['type_id'],
             ledger_year=entry['ledger_year'],
             lid=entry['lid']
         ))
@@ -58,3 +58,48 @@ def list_budget_entries(lid):
         ))
     
     return entries
+
+def get_budget_entry(bid):
+    conn = db_connection()
+    db_entry = conn.execute(
+        "SELECT * FROM budget_entries WHERE bid = ?",
+        (bid,)
+    ).fetchone()
+    conn.close()
+
+    if db_entry:
+        return BudgetEntry(
+            bid=db_entry['bid'],
+            year_id=db_entry['year_id'],
+            amount=db_entry['amount'],
+            cid=db_entry['cid'],
+            lid=db_entry['lid'],
+            type_id=db_entry['type_id']
+        )
+    return None
+
+def insert_budget_entry(year_id, amount, cid, lid, type_id):
+    conn = db_connection()
+    cur = conn.execute(
+        "INSERT INTO budget_entries (year_id, amount, cid, lid, type_id) VALUES (?, ?, ?, ?, ?)",
+        (year_id, amount, cid, lid, type_id)
+    )
+    conn.commit()
+    entry_id = cur.lastrowid
+    conn.close()
+    return entry_id
+
+def update_budget_entry(bid, year_id, amount, cid, lid, type_id):
+    conn = db_connection()
+    conn.execute(
+        "UPDATE budget_entries SET year_id = ?, amount = ?, cid = ?, lid = ?, type_id = ? WHERE bid = ?",
+        (year_id, amount, cid, lid, type_id, bid)
+    )
+    conn.commit()
+    conn.close()
+
+def delete_budget_entry(bid):
+    conn = db_connection()
+    conn.execute("DELETE FROM budget_entries WHERE bid = ?", (bid,))
+    conn.commit()
+    conn.close()
