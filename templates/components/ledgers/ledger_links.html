@@ -1,19 +1,17 @@
 {% macro ledger_links(ledger) %}
 
-<div class="flex">
+<div class="d-flex ledger-tabs">
 	<a
-		class="ledger-tabs"
+		class="ledger-tab {% if request.path == '/ledgers/' ~ ledger.lid %}active{% endif %}"
 		href="/ledgers/{{ ledger.lid }}"
 		>Overblik</a
 	>
 	<a
-		class="ledger-tabs"
+		class="ledger-tab {% if request.path == '/ledgers/' ~ ledger.lid ~ '/postings' %}active{% endif %}"
 		href="/ledgers/{{ ledger.lid }}/postings"
 		>Postings</a>
-
-
 	<a
-		class="ledger-tabs"
+		class="ledger-tab {% if request.path == '/ledgers/' ~ ledger.lid ~ '/budget' %}active{% endif %}"
 		href="/ledgers/{{ ledger.lid }}/budget"
 		>Budget</a
 	>
