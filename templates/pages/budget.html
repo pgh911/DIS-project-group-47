@@ -1,6 +1,8 @@
-{% extends "layout.html" %} {% block title %}Budget | {{ ledger.ledger_name }}{%
+{% extends "layout.html" %} {% block title %} Budget | {{ ledger.ledger_name }}{%
 endblock %} {% from "components/ledgers/ledger_links.html" import ledger_links %} {%
 block content %}
+
+<div class="px-5">
 <h1>Ledger: {{ ledger.ledger_name }}</h1>
 <hr />
 {{ ledger_links(ledger) }}
@@ -37,4 +39,5 @@ block content %}
 		</div>
 	</div>
 </section>
+</div>
 {% endblock %}

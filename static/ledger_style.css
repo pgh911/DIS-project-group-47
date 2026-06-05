@@ -21,9 +21,26 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     font-size: 18px;
     font-weight: 500;
+    transition-duration: 0.1s;
+
+}
+
+.ledger-tabs {
+    background: white;
+    border: 1px solid #ddd; 
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    font-size: 18px;
+    font-weight: 500;
+    transition-duration: 0.1s;
+}
+
+.ledger-tabs:hover {
+    transform: translateY(-6px);
+    transition-duration: 0.2s;
 }
 
 .category-card:hover {
-    transform: translateY(-3px);
-    transition: ease-in;
+    transform: translateY(-6px);
+      transition-duration: 0.2s;
 }
