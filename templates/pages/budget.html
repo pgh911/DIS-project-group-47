@@ -11,16 +11,6 @@
 <section>
 	<h2>Budget</h2>
 	<div>
-		<h3>Budget entries (should be removed):</h3>
-		<ul>
-			{% for entry in budget %}
-			<li>
-				bid: {{ entry.bid }}, lid: {{ entry.lid }}, cid: {{ entry.cid }}, year
-				id: {{ entry.year_id }}, type id: {{ entry.type_id }}, amount: {{ entry.amount }}, month: {{ entry.month }}
-			</li>
-			{% endfor %}
-		</ul>
-		<h3>ledger years</h3>
 		{% from "components/budget/year_table.html" import year_table %}
 		<div class="d-flex gap-3 mb-4">
 			<form method="POST">

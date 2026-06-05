@@ -30,8 +30,14 @@
 			data-ledger="{{ ledger_year.lid }}">
 			Save budget year
 		</button>
-		<table class="table">
-			<thead>
+		{% for group, color, title in [ ('expense', 'table-danger', 'Expenses'),
+		('saving', 'table-primary', 'Savings'), ('income', 'table-success',
+		'Income') ] %}
+
+		<h5 class="mt-3">{{ title }}</h5>
+
+		<table class="table table-hover">
+						<thead>
 				<tr>
 					<th scope="col">Category</th>
 					<th scope="col">Jan</th>
@@ -48,14 +54,6 @@
 					<th scope="col">Dec</th>
 				</tr>
 			</thead>
-		</table>
-		{% for group, color, title in [ ('expense', 'table-danger', 'Expenses'),
-		('saving', 'table-primary', 'Savings'), ('income', 'table-success',
-		'Income') ] %}
-
-		<h5 class="mt-3">{{ title }}</h5>
-
-		<table class="table table-hover">
 			<tbody class="{{ color }}">
 				{% for c in categories if c.category_type == group %}
 				<tr>
@@ -66,8 +64,10 @@
 					month) | first ) %}
 					<td>
 						<input
-							class="form-control budget-cell"
+							class="form-control form-control-sm budget-cell"
 							type="number"
+							step="100"
+							inputmode="numeric"
 							value="{{ budget.amount if budget else 0 }}"
 							data-bid="{{ budget.bid }}" />
 					</td>

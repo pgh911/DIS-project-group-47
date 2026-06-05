@@ -28,7 +28,7 @@ INSERT INTO
     budget_entries (year_id, amount, cid, lid, type_id, MONTH)
 SELECT
     NEW.year_id,
-    1, -- amount
+    0, -- amount
     c.cid,
     c.lid,
     c.type_id,
@@ -60,7 +60,7 @@ INSERT INTO budget_entries (
 )
 SELECT
     y.year_id,
-    1,
+    0,
     NEW.cid,
     NEW.lid,
     NEW.type_id,
