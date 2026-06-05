@@ -4,13 +4,13 @@
 {% macro header() %}
 <header class="d-flex">
     <div class="d-flex">
-        <div width="20px" height="20px">{{back()}}</div>
+        {% if request.path != '/ledgers' %}<div width="20px" height="20px">{{back()}}</div>{% endif %}
         <h1 class="text-xl">Budget app</h1>
     </div>
         
     <div class="position-absolute top-0 end-0 pt-2 px-3">{{navbar()}}</div>
 
-    
+
    
     
 
