@@ -1,5 +1,4 @@
 from database import db_connection
-import json
 
 class LedgerYear:
     def __init__(self, year_id, ledger_year, lid):
@@ -85,25 +84,26 @@ def get_budget_entry(bid):
         month=db_entry['month']
     )
 
-def insert_budget_entry(year_id, amount, cid, lid, type_id):
+def insert_budget_entry(year_id, amount, cid, lid, type_id, month):
     conn = db_connection()
     cur = conn.execute(
-        "INSERT INTO budget_entries (year_id, amount, cid, lid, type_id) VALUES (?, ?, ?, ?, ?)",
-        (year_id, amount, cid, lid, type_id)
+        "INSERT INTO budget_entries (year_id, amount, cid, lid, type_id, month) VALUES (?, ?, ?, ?, ?, ?)",
+        (year_id, amount, cid, lid, type_id, month)
     )
     conn.commit()
     entry_id = cur.lastrowid
     conn.close()
     return entry_id
 
-def update_budget_entry(bid, year_id, amount, cid, lid, type_id):
+def update_budget_entry(bid, amount):
     conn = db_connection()
     conn.execute(
-        "UPDATE budget_entries SET year_id = ?, amount = ?, cid = ?, lid = ?, type_id = ? WHERE bid = ?",
-        (year_id, amount, cid, lid, type_id, bid)
+        "UPDATE budget_entries SET amount = ? WHERE bid = ?",
+        (amount, bid, )
     )
     conn.commit()
     conn.close()
+    print(f"Budget entry {bid} updated")
 
 def delete_budget_entry(bid):
     conn = db_connection()

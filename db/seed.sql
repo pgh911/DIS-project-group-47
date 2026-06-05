@@ -52,16 +52,4 @@ INSERT INTO
     ledger_years (year_id, ledger_year, lid)
 VALUES 
     (1, 2025, 1),
-    (2, 2026, 1),
-    (3, 2025, 2),
     (4, 2026, 2);
-
--- INSERT INTO 
---     budget_entries (bid, year_id, amount, cid, lid, type_id, month)
--- VALUES 
---     (1, 1, 500, 1, 1, 1, 1),
---     (2, 1, 1500.25, 1, 1, 2, 1),
---     (1, 1, 500, 1, 1, 1, 1),
---     (2, 1, 1500.25, 1, 1, 2, 2),
---     (1, 1, 500, 1, 1, 1, 1),
---     (2, 1, 1500.25, 1, 1, 2, 2);

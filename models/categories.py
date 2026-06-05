@@ -8,12 +8,13 @@ class CategoryType:
 
 
 class Category:
-    def __init__(self, cid, category_name, category_type, created, lid):
-        self.cid = cid
-        self.category_name = category_name
-        self.category_type = category_type
-        self.created = created
-        self.lid = lid
+    def __init__(self, cid, category_name, category_type, created, lid, type_id):
+        self.cid:int = cid
+        self.lid :int= lid
+        self.created:int = created
+        self.type_id:int = type_id
+        self.category_name:str = category_name
+        self.category_type:str = category_type
 
 
 def find_category_type(type_id):
@@ -61,6 +62,7 @@ def list_categories(lid):
             cid=db_category['cid'],
             category_name=db_category['category_name'],
             category_type=category_type,
+            type_id=db_category['type_id'],
             created=db_category['created'],
             lid=db_category['lid']
         ))
@@ -83,6 +85,7 @@ def get_category(cid):
             category_name=db_category['category_name'],
             category_type=category_type,
             created=db_category['created'],
+            type_id=db_category['type_id'],
             lid=db_category['lid']
         )
     return None
