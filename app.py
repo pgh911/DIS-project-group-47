@@ -49,6 +49,8 @@ def register():
 
     return render_template("pages/register.html")
 
+
+
 @login_manager.user_loader
 def load_user(user_id):
     conn = db_connection()
@@ -68,6 +70,10 @@ def load_user(user_id):
 
     finally:
         conn.close()
+
+@app.route("/back", methods=["GET", "POST"])
+def back():
+    return redirect("/ledgers")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
