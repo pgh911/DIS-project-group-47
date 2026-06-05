@@ -9,7 +9,7 @@
 <div class="px-5">
   {% from "components/header.html" import header %} {{ header("Ledgers") }}
 
-  <div class="d-flex flex-row w-100 gap-3">
+  <div class="d-flex flex-row flex-wrap w-100 gap-3">
     {% for l in ledgers %} {{ ledger(l) }} {% endfor %}
 	{{ new_ledger("")}}
   </div>
