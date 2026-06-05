@@ -18,18 +18,31 @@
 
 				<p class="mb-1">Email</p>
 				<input type="text" required name="email"
+					pattern=".+@(gruppe47\..+|group47\..+)"
+					title="Email must be in the format: [user]@gruppe47.[domain] or [user]@group47.[domain]"
 					class="form-control mb-2" />
 
 				<p class="mb-1">Password</p>
-				<input type="password" name="password" required
+				<input type="password" name="password" required minlength="8"
 					class="form-control mb-3" />
-				<input type="password" name="password_repeat" required
+				<input type="password" id="password_repeat" name="password_repeat" required minlength="8"
 					class="form-control mb-3" />
 
 				<button type="submit" class="btn btn-dark w-100 mb-2">
 					Register
 				</button>
 				</form>
+				<script>
+					const form = document.querySelector('form');
+					const pw = form.querySelector('[name="password"]');
+					const pw2 = document.getElementById('password_repeat');
+					pw2.addEventListener('input', () => {
+						pw2.setCustomValidity(pw2.value !== pw.value ? 'Passwords do not match' : '');
+					});
+					pw.addEventListener('input', () => {
+						pw2.setCustomValidity(pw2.value && pw2.value !== pw.value ? 'Passwords do not match' : '');
+					});
+				</script>
 			</div>
 			</div>
 
