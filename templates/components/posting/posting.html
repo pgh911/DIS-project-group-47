@@ -1,12 +1,25 @@
 
 {% macro posting(amount, description, created, cid, category, posting_date, type_name) %}
-<tr>
-    <th>
-        {{ amount }} kr.
-    </th>
-    <td>
+
+{% set row_class = {
+    'saving': 'table-primary',
+    'income': 'table-success',
+    'expense': 'table-danger'
+}[type_name] %}
+
+{% set currency_class = {
+    'saving': 'text-primary',
+    'income': 'text-success',
+    'expense': 'text-danger'
+}[type_name] %}
+
+<tr class="{{ row_class }}">
+    <td scope="row">
         {{ posting_date }}
     </td>
+    <th class="{{ currency_class }}">
+        {{ amount }} kr.
+    </th>
     <td>
         {{ type_name }}
     </td>
