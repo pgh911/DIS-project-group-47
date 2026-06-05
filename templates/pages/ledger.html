@@ -12,12 +12,12 @@
 <div class="category-section">
     <h3>Categories</h3>
 
-    <div class="category-grid">
-        {% for c in categories %} 
-            <div class="category-card">
-                <span>{{ c.category_name }}</span>
-            </div>
-        {% endfor %}
-    </div>
+<div class="category-grid">
+    {% for c in categories %}
+        <div class="category-card">
+            <div>{{ c.category_name }}</div>
+            <small>{{ categoryTotals[1].total }}</small>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

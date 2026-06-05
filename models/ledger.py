@@ -62,3 +62,10 @@ def delete_ledger(lid):
     conn.commit()
     conn.close()
 
+def get_category_total():
+    conn = db_connection()
+    db_total = conn.execute("SELECT * FROM categories_totals;")
+    
+    return db_total.fetchall()
+
+

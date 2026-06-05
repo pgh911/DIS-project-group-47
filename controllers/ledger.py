@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 
-from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger
+from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_category_total
 from models.posting import Posting, list_postings, insert_posting
 from models.categories import Category, CategoryType, list_categories
 from models.budget import BudgetEntry, list_budget_entries, list_budget_years
@@ -34,10 +34,11 @@ def ledger(LedgerId):
     ledger = get_ledger(LedgerId)
     postings = list_postings(LedgerId)
     categories = list_categories(LedgerId)
+    category_total = get_category_total()
     
     if ledger is None:
         return "Ledger not found", 404
-    return render_template('pages/ledger.html', ledger=ledger, postings=postings, categories=categories)
+    return render_template('pages/ledger.html', ledger=ledger, postings=postings, categories=categories, categoryTotals = category_total)
 
 @bp.route('/<int:LedgerId>/postings', methods=['GET', 'POST'])
 @login_required
