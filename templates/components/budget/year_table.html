@@ -24,7 +24,12 @@
 	class="collapse"
 	id="collapseYear{{ ledger_year.ledger_year }}">
 	<div class="card card-body">
-		<button class="btn btn-primary">Save budget year</button>
+		<button
+			class="btn btn-primary save-budget"
+			data-year="{{ ledger_year.ledger_year }}"
+			data-ledger="{{ ledger_year.lid }}">
+			Save budget year
+		</button>
 		<table class="table">
 			<thead>
 				<tr>
@@ -55,13 +60,25 @@
 				{% for c in categories if c.category_type == group %}
 				<tr>
 					<th scope="row">{{ c.category_name }}</th>
-					{% for i in range(12) %}
+					{% for month in range(1, 13) %}
+					 {% set budget = (
+        			    budget_entries
+        			    | selectattr('year_id', 'equalto', ledger_year.year_id)
+        			    | selectattr('cid', 'equalto', c.cid)
+        			    | selectattr('month', 'equalto', month)
+        			    | first
+        			) %}
 					<td>
-						<input
-							class="form-control"
-							type="number"
-							value="0" />
-					</td>
+			            <input
+			                class="form-control budget-cell"
+			                type="number"
+			                value="{{ budget.amount if budget else 0 }}"
+			                data-budget-id="{{ budget.bid if budget else '' }}"
+			                data-year="{{ ledger_year.ledger_year }}"
+			                data-month="{{ month }}"
+			                data-category-id="{{ c.cid }}"
+			                data-category-type="{{ c.category_type }}" />
+			        </td>
 					{% endfor %}
 				</tr>
 				{% endfor %}
@@ -71,4 +88,42 @@
 		{% endfor %}
 	</div>
 </div>
+<script>
+	document.querySelectorAll(".save-budget").forEach(button => {
+    button.addEventListener("click", async function () {
+		console.log("Button pushed!");
+		
+        const year = this.dataset.year;
+		const lid = this.dataset.ledger;
+
+        const rows = [];
+
+        document
+            .querySelectorAll(
+                `#collapseYear${year} .budget-cell`
+            )
+            .forEach(input => {
+
+                rows.push({
+                    year: parseInt(input.dataset.year),
+                    month: parseInt(input.dataset.month),
+                    category_id: parseInt(input.dataset.categoryId),
+                    category_type: input.dataset.categoryType,
+                    amount: parseFloat(input.value || 0)
+                });
+
+            });
+
+        await fetch(`/ledgers/${lid}/budget/save`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(rows)
+        });
+
+        alert("Saved");
+    });
+});
+</script>
 {% endmacro%}

@@ -8,13 +8,14 @@ class LedgerYear:
         self.lid = lid
 
 class BudgetEntry:
-    def __init__(self, bid, year_id, amount, cid, lid, type_id):
+    def __init__(self, bid, year_id, amount, cid, lid, type_id, month):
         self.bid = bid
         self.lid = lid
         self.cid = cid
         self.year_id = year_id
         self.type_id = type_id
         self.amount = amount
+        self.month = month
 
 def list_budget_years(lid):
     conn = db_connection()
@@ -46,6 +47,9 @@ def list_budget_entries(lid):
     
     conn.close()
 
+    if budget_entries is None:
+        return None
+
     entries = []
     for entry in budget_entries:
         entries.append(BudgetEntry(
@@ -54,7 +58,8 @@ def list_budget_entries(lid):
             amount=entry['amount'],
             cid=entry['cid'],
             lid=entry['lid'],
-            type_id=entry['type_id']
+            type_id=entry['type_id'],
+            month=entry['month']
         ))
     
     return entries
@@ -67,16 +72,18 @@ def get_budget_entry(bid):
     ).fetchone()
     conn.close()
 
-    if db_entry:
-        return BudgetEntry(
-            bid=db_entry['bid'],
-            year_id=db_entry['year_id'],
-            amount=db_entry['amount'],
-            cid=db_entry['cid'],
-            lid=db_entry['lid'],
-            type_id=db_entry['type_id']
-        )
-    return None
+    if not db_entry:
+        return None
+    
+    return BudgetEntry(
+        bid=db_entry['bid'],
+        year_id=db_entry['year_id'],
+        amount=db_entry['amount'],
+        cid=db_entry['cid'],
+        lid=db_entry['lid'],
+        type_id=db_entry['type_id'],
+        month=db_entry['month']
+    )
 
 def insert_budget_entry(year_id, amount, cid, lid, type_id):
     conn = db_connection()

@@ -36,9 +36,10 @@ CREATE TABLE
         type_id INTEGER NOT NULL,
         created DATETIME DEFAULT CURRENT_TIMESTAMP,
         lid INTEGER NOT NULL,
+
+        UNIQUE (lid, category_name),
         FOREIGN KEY (type_id) REFERENCES category_types (type_id),
-        FOREIGN KEY (lid) REFERENCES ledgers (lid) ON DELETE CASCADE,
-        UNIQUE (lid, category_name)
+        FOREIGN KEY (lid) REFERENCES ledgers (lid) ON DELETE CASCADE
     );
 
 CREATE TABLE
@@ -72,6 +73,10 @@ CREATE TABLE
         cid INTEGER NOT NULL,
         lid INTEGER NOT NULL,
         type_id INTEGER NOT NULL,
+        month INTEGER NOT NULL, -- month number starting range 1-12
+
+        -- each category in month in year in ledger is a uique combination
+        UNIQUE(lid, year_id, cid, month), 
         FOREIGN KEY (lid) REFERENCES ledgers (lid) ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (type_id) REFERENCES category_types (type_id),
         FOREIGN KEY (cid) REFERENCES categories (cid) ON DELETE CASCADE ON UPDATE CASCADE,

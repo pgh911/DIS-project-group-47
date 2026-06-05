@@ -1,7 +1,9 @@
-{% extends "layout.html" %} {% block title %} Budget | {{ ledger.ledger_name }}{%
-endblock %} {% from "components/ledgers/ledger_links.html" import ledger_links %} {%
-block content %}
+{% extends "layout.html" %} 
+{% block title %} Budget | {{ ledger.ledger_name }} {% endblock %} 
 
+{% from "components/ledgers/ledger_links.html" import ledger_links %} 
+
+{% block content %}
 <div>
 <h1>Ledger: {{ ledger.ledger_name }}</h1>
 <hr />
@@ -14,8 +16,7 @@ block content %}
 			{% for entry in budget %}
 			<li>
 				bid: {{ entry.bid }}, lid: {{ entry.lid }}, cid: {{ entry.cid }}, year
-				id: {{ entry.year_id }}, type id: {{ entry.type_id }}, amount: {{
-				entry.amount }}
+				id: {{ entry.year_id }}, type id: {{ entry.type_id }}, amount: {{ entry.amount }}, month: {{ entry.month }}
 			</li>
 			{% endfor %}
 		</ul>
@@ -23,7 +24,6 @@ block content %}
 		{% from "components/budget/year_table.html" import year_table %}
 		<div class="d-flex gap-3 mb-4">
 			<form method="POST">
-				<!-- <input type="number" name="year" value="{{ year or 2026 }}" required> -->
 				<button
 					type="submit"
 					name="action"
@@ -34,8 +34,9 @@ block content %}
 			</form>
 		</div>
 		<div>
-			{% for b in budget_years %} {{ year_table(b, budget, categories) }} {%
-			endfor %}
+			{% for b in budget_years %} 
+			{{ year_table(b, budget, categories) }} 
+			{% endfor %}
 		</div>
 	</div>
 </section>

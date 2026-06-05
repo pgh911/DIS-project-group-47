@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_category_total
 from models.posting import Posting, list_postings, insert_posting
 from models.categories import Category, CategoryType, list_categories
-from models.budget import BudgetEntry, list_budget_entries, list_budget_years
+from models.budget import BudgetEntry, list_budget_entries, list_budget_years, get_budget_entry, insert_budget_entry
 # from database import db_connection
 
 bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
@@ -69,17 +69,67 @@ def budget(LedgerId):
     if ledger is None:
         return "Ledger not found", 404
 
-
     if request.method == "POST":
         action = request.form.get("action")
         year = request.form.get("year", 2026)
 
         if action == "add_year":
-            #For DATABASE
             return redirect(url_for("ledger.budget", LedgerId=LedgerId, year=year))
 
     categories = list_categories(LedgerId)
+    if categories is None:
+        return "Categories not found", 404
     budget = list_budget_entries(LedgerId)
+    print(f"budget: {budget}")
+    if budget is None:
+        return "budget not found", 404
     budget_years = list_budget_years(LedgerId)
+    if budget_years is None:
+        return "budget_years not found", 404
 
     return render_template('pages/budget.html', ledger=ledger, budget=budget, budget_years=budget_years, categories=categories)
+
+@bp.route('/<int:LedgerId>/budget/save', methods=['POST'])
+@login_required
+def save_budget(LedgerId):
+    ledger = get_ledger(LedgerId)
+
+    if ledger is None:
+        return {"error": "Ledger not found"}, 404
+
+    entries = request.get_json()
+
+    if not entries:
+        return {"error": "No entries supplied"}, 400
+
+    for entry in entries:
+
+        year = entry["year"]
+        month = entry["month"]
+        category_id = entry["category_id"]
+        amount = entry["amount"]
+
+        budget_entry = get_budget_entry( # ID should be passe
+            LedgerId=LedgerId,
+            year=year,
+            month=month,
+            category_id=category_id
+        )
+
+        if budget_entry:
+            budget_entry.amount = amount
+        else:
+            insert_budget_entry(
+                LedgerId=LedgerId,
+                year=year,
+                month=month,
+                category_id=category_id,
+                amount=amount
+            )
+
+    # db.session.commit()
+
+    return {
+        "success": True,
+        "updated": len(entries)
+    }, 200

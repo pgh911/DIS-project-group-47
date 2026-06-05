@@ -16,7 +16,7 @@ VALUES
     (2, 'saving'),
     (3, 'income');
 
-INSERT INTO
+INSERT OR IGNORE INTO
     categories (category_name, type_id, lid)
 VALUES
     ('Rent', 1, 1),
@@ -56,8 +56,12 @@ VALUES
     (3, 2025, 2),
     (4, 2026, 2);
 
-INSERT INTO 
-    budget_entries (bid, year_id, amount, cid, lid, type_id)
-VALUES 
-    (1, 1, 500, 1, 1, 1),
-    (2, 1, 1500.25, 1, 1, 2);
+-- INSERT INTO 
+--     budget_entries (bid, year_id, amount, cid, lid, type_id, month)
+-- VALUES 
+--     (1, 1, 500, 1, 1, 1, 1),
+--     (2, 1, 1500.25, 1, 1, 2, 1),
+--     (1, 1, 500, 1, 1, 1, 1),
+--     (2, 1, 1500.25, 1, 1, 2, 2),
+--     (1, 1, 500, 1, 1, 1, 1),
+--     (2, 1, 1500.25, 1, 1, 2, 2);
