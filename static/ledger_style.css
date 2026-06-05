@@ -21,9 +21,37 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     font-size: 18px;
     font-weight: 500;
+    transition-duration: 0.1s;
+
+}
+
+
+.ledger-tabs {
+    flex: content;
+
+}
+
+.ledger-tab {
+    box-shadow: 0 4px 4px -2px  rgba(0, 0, 0, 0.08);
+    background: white;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 500;
+    color: gray;
+    text-decoration: none;
+}
+
+.ledger-tab.active {
+    color: black;
+}
+
+.ledger-tab:hover {
+    padding-bottom: 16px;
+    border-bottom: black solid 2px;
+    
 }
 
 .category-card:hover {
-    transform: translateY(-3px);
-    transition: ease-in;
+    transform: translateY(-6px);
+      transition-duration: 0.2s;
 }

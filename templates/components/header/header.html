@@ -1,11 +1,18 @@
 {% from "components/header/navbar.html" import navbar %}
+{% from "components/header/backbutton.html" import back %}
 
 {% macro header() %}
 <header class="d-flex">
-    <div>
+    <div class="d-flex">
+        {% if request.path != '/ledgers' %}<div width="20px" height="20px">{{back()}}</div>{% endif %}
         <h1 class="text-xl">Budget app</h1>
     </div>
-    {{navbar()}}
+        
+    <div class="position-absolute top-0 end-0 pt-2 px-3">{{navbar()}}</div>
+
+
+   
     
+
 </header>
 {% endmacro %}

@@ -4,8 +4,7 @@ from flask_login import login_required, current_user
 from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_category_total
 from models.posting import Posting, list_postings, insert_posting
 from models.categories import Category, CategoryType, list_categories
-from models.budget import BudgetEntry, list_budget_entries, list_budget_years
-# from database import db_connection
+from models.budget import BudgetEntry, list_budget_entries, list_budget_years, get_budget_entry, update_budget_entry, add_ledger_year
 
 bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
 
@@ -68,18 +67,86 @@ def budget(LedgerId):
 
     if ledger is None:
         return "Ledger not found", 404
-
-
-    if request.method == "POST":
-        action = request.form.get("action")
-        year = request.form.get("year", 2026)
-
-        if action == "add_year":
-            #For DATABASE
-            return redirect(url_for("ledger.budget", LedgerId=LedgerId, year=year))
-
-    categories = list_categories(LedgerId)
+    
+    categories:list[Category] = list_categories(LedgerId)
+    if categories is None:
+        return "Categories not found", 404
     budget = list_budget_entries(LedgerId)
+
+    if budget is None:
+        return "budget not found", 404
     budget_years = list_budget_years(LedgerId)
+    if budget_years is None:
+        return "budget_years not found", 404
+
+    if request.method == "POST" and request.form["action"] == "add-year":
+        year = request.form.get("year")
+        if not year:
+            return "Year not found", 404
+
+        add_ledger_year(LedgerId, year)
 
     return render_template('pages/budget.html', ledger=ledger, budget=budget, budget_years=budget_years, categories=categories)
+
+@bp.route('/<int:LedgerId>/budget/save', methods=['POST'])
+@login_required
+def save_budget(LedgerId):
+    ledger = get_ledger(LedgerId)
+
+    if ledger is None:
+        return {"error": "Ledger not found"}, 404
+
+    entries = request.get_json()
+
+    if not entries:
+        return {"error": "No entries supplied"}, 400
+    
+    updated_count = 0
+
+    for entry in entries:
+        amount = entry["amount"]
+        bid = entry["bid"]
+
+        budget_entry = get_budget_entry(bid)
+
+
+        print(budget_entry.amount)
+        if budget_entry.amount != amount:
+            updated_count += 1
+            print(f"attempting to insert budget entry {bid}")
+            update_budget_entry(
+                bid=bid,
+                amount=amount,
+            )
+
+    return {
+        "success": True,
+        "updated": updated_count
+    }, 200
+
+
+@bp.route('/<int:LedgerId>/budget/add_year', methods=['POST'])
+@login_required
+def add_year(LedgerId):
+    ledger = get_ledger(LedgerId)
+    if ledger is None:
+        return {"error": "Ledger not found"}, 404
+    
+
+    
+    categories:list[Category] = list_categories(LedgerId)
+    if categories is None:
+        return "Categories not found", 404
+
+    budget = list_budget_entries(LedgerId)
+    if budget is None:
+        return "budget not found", 404
+    
+    budget_years = list_budget_years(LedgerId)
+    if budget_years is None:
+        return "budget_years not found", 404
+    # print(budget_years)
+
+    return render_template('pages/budget.html', ledger=ledger, budget=budget, budget_years=budget_years, categories=categories)
+
+
