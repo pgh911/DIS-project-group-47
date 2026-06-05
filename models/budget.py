@@ -110,3 +110,9 @@ def delete_budget_entry(bid):
     conn.execute("DELETE FROM budget_entries WHERE bid = ?", (bid,))
     conn.commit()
     conn.close()
+
+def add_ledger_year(lid, year):
+    conn = db_connection()
+    conn.execute("INSERT OR IGNORE INTO ledger_years (ledger_year, lid) VALUES (?, ?)", (year,lid))
+    conn.commit()
+    conn.close()

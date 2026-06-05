@@ -1,34 +1,41 @@
-{% extends "layout.html" %} 
-{% block title %} Budget | {{ ledger.ledger_name }} {% endblock %} 
-
-{% from "components/ledgers/ledger_links.html" import ledger_links %} 
-
-{% block content %}
+{% extends "layout.html" %} {% block title %} Budget | {{ ledger.ledger_name }}
+{% endblock %} {% from "components/ledgers/ledger_links.html" import
+ledger_links %} {% block content %}
 <div>
-<h1>Ledger: {{ ledger.ledger_name }}</h1>
-<hr />
-{{ ledger_links(ledger) }}
-<section>
-	<h2>Budget</h2>
-	<div>
-		{% from "components/budget/year_table.html" import year_table %}
-		<div class="d-flex gap-3 mb-4">
-			<form method="POST">
-				<button
-					type="submit"
-					name="action"
-					value="add_year"
-					class="btn btn-success">
-					Add year
-				</button>
-			</form>
+	<h1>Ledger: {{ ledger.ledger_name }}</h1>
+	<hr />
+	{{ ledger_links(ledger) }}
+	<section>
+		<h2>Budget</h2>
+		<div class="container">
+			{% from "components/budget/year_table.html" import year_table %}
+			<div class="px-0 mb-4">
+				<form
+					method="POST"
+					class="d-flex align-items-center gap-2">
+					<input type="hidden" name="action" value="add-year">
+					<input
+						class="form-control"
+						id="year-selector"
+						type="number"
+						placeholder="2026"
+						value="2027"
+						step="1"
+						name="year"
+						style="max-width: 150px" />
+
+					<button
+						type="submit"
+						class="btn btn-success">
+						Add new year
+					</button>
+				</form>
+			</div>
+			<div>
+				{% for b in budget_years %} {{ year_table(b, budget, categories) }} {%
+				endfor %}
+			</div>
 		</div>
-		<div>
-			{% for b in budget_years %} 
-			{{ year_table(b, budget, categories) }} 
-			{% endfor %}
-		</div>
-	</div>
-</section>
+	</section>
 </div>
 {% endblock %}
