@@ -1,23 +1,24 @@
 {% extends "layout.html" %}
 
-{% block title %}Ledger | {ledger.ledger_name}{% endblock %}
+{% block title %}Ledger | {{ ledger.ledger_name }}{% endblock %}
 
 {% block content %}
-<h1>Ledger: {{ ledger.ledger_name }} </h1>
-{% from "components/header.html" import header %}
+{% from "components/header/header.html" import header %}
 <hr />
 {% from "components/ledgers/ledger_links.html" import ledger_links %}
+<h1>Ledger: {{ ledger.ledger_name }} </h1>
 {{ ledger_links(ledger) }}
 
 <div class="category-section">
     <h3>Categories</h3>
 
-<div class="category-grid">
-    {% for c in categories %}
-        <div class="category-card">
-            <div>{{ c.category_name }}</div>
-            <small>{{ categoryTotals[1].total }}</small>
-        </div>
-    {% endfor %}
+    <div class="category-grid">
+        {% for c in categoryTotals %} 
+            <div class="category-card">
+                <span>{{ c.category_name }}</span>
+                <small>{{ c.total }}</small>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

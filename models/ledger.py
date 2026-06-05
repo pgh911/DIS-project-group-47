@@ -62,10 +62,25 @@ def delete_ledger(lid):
     conn.commit()
     conn.close()
 
-def get_category_total():
+def get_category_total(lid):
     conn = db_connection()
-    db_total = conn.execute("SELECT * FROM categories_totals;")
-    
-    return db_total.fetchall()
+    db_total = conn.execute(
+        """
+        SELECT
+            c.cid,
+            c.category_name,
+            COALESCE(SUM(p.amount), 0) AS total
+        FROM categories c
+        LEFT JOIN postings p
+            ON p.cid = c.cid
+            AND p.lid = c.lid
+        WHERE c.lid = ?
+        GROUP BY c.cid, c.category_name
+        ORDER BY c.cid
+        """,
+        (lid,)
+    ).fetchall()
+    conn.close()
+    return db_total
 
 

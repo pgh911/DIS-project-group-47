@@ -33,7 +33,7 @@ def ledger(LedgerId):
     ledger = get_ledger(LedgerId)
     postings = list_postings(LedgerId)
     categories = list_categories(LedgerId)
-    category_total = get_category_total()
+    category_total = get_category_total(LedgerId)
     
     if ledger is None:
         return "Ledger not found", 404

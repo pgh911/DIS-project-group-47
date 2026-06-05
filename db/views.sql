@@ -6,9 +6,9 @@ DROP VIEW IF EXISTS categories_totals;
 CREATE VIEW 
     categories_totals AS
 SELECT
-    lid, sum(amount) as total
+    lid,cid, sum(amount) as total
 FROM postings
-GROUP BY lid;
+GROUP BY lid,cid;
 
 CREATE VIEW
     posting_details AS
