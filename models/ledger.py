@@ -68,16 +68,9 @@ def get_category_total(lid: int) -> list[sqlite3.Row]:
     db_total = conn.execute(
         """
         SELECT
-            c.cid,
-            c.category_name,
-            COALESCE(SUM(p.amount), 0) AS total
-        FROM categories c
-        LEFT JOIN postings p
-            ON p.cid = c.cid
-            AND p.lid = c.lid
+            *
+        FROM posting_sum c
         WHERE c.lid = ?
-        GROUP BY c.cid, c.category_name
-        ORDER BY c.cid
         """,
         (lid,)
     ).fetchall()
