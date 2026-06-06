@@ -1,15 +1,6 @@
-- [ ] Jakob
-
-- [ ] Christian
-Models - regex backend, login funktion
-Ledgers - fetch create delete update
-Categories - fetch create delete update
-Transactions - fetch create delete update
-Budget entry - fetch create delete update
-Create user
-
-- [ ] 
-
-- [ ] Valdemar
-    - [ ] Login page
-    - [ ] Login page
+- [ ] overblik skal laves
+- [ ] alle forms hvor man opretter et eller andet skal se skarpere ud
+- [ ] Der skal på alle sider være tekst som beskriver hvad der foregår
+- [ ] der skal laves mere stock data som indsættes når db initialiseres
+- [ ] der skal regex til at lave pænere datoformat
+- [ ] der skal laves E/R diagram
