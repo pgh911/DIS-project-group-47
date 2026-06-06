@@ -38,10 +38,20 @@ header %}
 	</form>
 
 	<ul class="list-group-flush">
+		<b>Postings</b>
 		{% for entry in summed_totals %}
 		<li>
 			<span>{{ entry.category_name }}</span>
 			<small>{{ entry.total_amount }}</small>
+		</li>
+		{% endfor %}
+	</ul>
+	<ul class="list-group-flush">
+		<b>Budget</b>
+		{% for entry in budget_entries %}
+		<li>
+			<span>{{ entry.category_name }}</span>
+			<small>{{ entry.amount }}</small>
 		</li>
 		{% endfor %}
 	</ul>

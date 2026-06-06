@@ -167,12 +167,31 @@ def list_budget_entries_detailed_fullyear(lid: int, year:int) -> list[BudgetEntr
     conn = db_connection()
 
     budget_entries = conn.execute(
-        "SELECT ledger_year, category_name, SUM(amount) as amount, ledger_year FROM budget_details WHERE lid = ? AND ledger_year = ? GROUP BY ledger_year, category_name",
+        """
+            SELECT 
+                SUM(amount) as amount, 
+                bid,
+                year_id,
+                amount,
+                cid,
+                lid,
+                type_id,
+                type_name,
+                category_name,
+                ledger_year
+            FROM 
+                budget_details 
+            WHERE lid = ? 
+                AND ledger_year = ? 
+            GROUP BY 
+                ledger_year, 
+                category_name
+        """,
         (lid,year,)
     ).fetchall()
     
     conn.close()
-
+ 
     if budget_entries is None:
         return None
 
@@ -185,7 +204,7 @@ def list_budget_entries_detailed_fullyear(lid: int, year:int) -> list[BudgetEntr
             cid=entry['cid'],
             lid=entry['lid'],
             type_id=entry['type_id'],
-            month=entry['month'],
+            month=None,
             type_name=entry["type_name"],
             category_name=entry["category_name"],
             ledger_year=entry["ledger_year"]
