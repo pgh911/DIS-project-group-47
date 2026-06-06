@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, Respon
 from flask_login import login_required, current_user
 from werkzeug.wrappers import Response as WerkzeugResponse
 
-from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_summed_totals, SummedTotal, Ledger
+from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_summed_totals,get_summed_totals_fullyear, SummedTotal, Ledger
 from models.posting import Posting, list_postings, insert_posting, delete_posting, update_posting
 from models.categories import Category, CategoryType, list_categories, insert_category, update_category, delete_category, list_category_types
 from models.budget import BudgetEntry, list_budget_entries, list_budget_years, get_budget_entry, update_budget_entry, add_ledger_year, LedgerYear
@@ -27,13 +27,20 @@ def ledgers() -> str | WerkzeugResponse:
     ledgers = list_ledgers(user_id=current_user.id)
     return render_template('pages/ledgers.html', ledgers=ledgers)
 
-@bp.route('/<int:LedgerId>')
+@bp.route('/<int:LedgerId>', methods=["GET", "POST"])
 @login_required
 def ledger(LedgerId: int) -> str | tuple[str, int]:
 
     ledger:list[Ledger] = get_ledger(LedgerId)
-    summed_totals:list[SummedTotal] = get_summed_totals(LedgerId, 2026, 6)
     ledger_years:list[LedgerYear] = list_budget_years(LedgerId)
+    summed_totals = get_summed_totals_fullyear(LedgerId, ledger_years[0].ledger_year)
+
+    summed_totals:list[SummedTotal] = []
+    if request.form.get("action") and request.form.get("action") == "update-timeframe":
+        if request.form["month"] == "all":
+            summed_totals = get_summed_totals_fullyear(LedgerId, request.form["year"])
+        elif request.form["month"]:
+            summed_totals = get_summed_totals(LedgerId, request.form["year"], request.form["month"])
     
     if ledger is None:
         return "Ledger not found", 404
