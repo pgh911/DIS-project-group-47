@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, Response
 from flask_login import login_required, current_user
+from werkzeug.wrappers import Response as WerkzeugResponse
 
 from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_category_total
 from models.posting import Posting, list_postings, insert_posting
@@ -10,25 +11,25 @@ bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
 
 @bp.route('', methods=['GET', 'POST'])
 @login_required
-def ledgers():
+def ledgers() -> str | WerkzeugResponse:
     if request.method == 'POST':
 
         if request.form["action"] and request.form["action"] == "delete":
             delete_ledger(request.form["lid"])
             
         elif request.form["action"] and request.form["action"] == "create":
-            ledger_name = request.form['ledger_name']
-            lid = insert_ledger(
+            ledger_name: str = request.form['ledger_name']
+            lid: int | None = insert_ledger(
                 user_id= current_user.id, 
                 ledger_name=ledger_name)
         return redirect(url_for('ledger.ledgers'))
 
-    ledgers = ledgers = list_ledgers(user_id=current_user.id)
+    ledgers = list_ledgers(user_id=current_user.id)
     return render_template('pages/ledgers.html', ledgers=ledgers)
 
 @bp.route('/<int:LedgerId>')
 @login_required
-def ledger(LedgerId):
+def ledger(LedgerId: int) -> str | tuple[str, int]:
 
     ledger = get_ledger(LedgerId)
     postings = list_postings(LedgerId)
@@ -41,7 +42,7 @@ def ledger(LedgerId):
 
 @bp.route('/<int:LedgerId>/postings', methods=['GET', 'POST'])
 @login_required
-def postings(LedgerId):
+def postings(LedgerId: int) -> str | tuple[str, int]:
     ledger = get_ledger(LedgerId)
     if request.method == "POST":
         if request.form["action"] and request.form["action"] == "create_posting":
@@ -55,23 +56,23 @@ def postings(LedgerId):
     if ledger is None:
         return "Ledger not found", 404
     
-    categories = list_categories(LedgerId)
-    postings = list_postings(LedgerId)
+    categories: list[Category] = list_categories(LedgerId)
+    postings: list[Posting] = list_postings(LedgerId)
     return render_template('pages/postings.html', ledger=ledger, postings=postings, categories=categories)
 
 
 @bp.route('/<int:LedgerId>/budget', methods=['GET', 'POST'])
 @login_required
-def budget(LedgerId):
+def budget(LedgerId: int) -> str | tuple[str, int]:
     ledger = get_ledger(LedgerId)
 
     if ledger is None:
         return "Ledger not found", 404
     
-    categories:list[Category] = list_categories(LedgerId)
+    categories: list[Category] = list_categories(LedgerId)
     if categories is None:
         return "Categories not found", 404
-    budget = list_budget_entries(LedgerId)
+    budget: list[BudgetEntry] | None = list_budget_entries(LedgerId)
 
     if budget is None:
         return "budget not found", 404
@@ -80,7 +81,7 @@ def budget(LedgerId):
         return "budget_years not found", 404
 
     if request.method == "POST" and request.form["action"] == "add-year":
-        year = request.form.get("year")
+        year: str | None = request.form.get("year")
         if not year:
             return "Year not found", 404
 
@@ -90,24 +91,24 @@ def budget(LedgerId):
 
 @bp.route('/<int:LedgerId>/budget/save', methods=['POST'])
 @login_required
-def save_budget(LedgerId):
+def save_budget(LedgerId: int) -> tuple[dict, int]:
     ledger = get_ledger(LedgerId)
 
     if ledger is None:
         return {"error": "Ledger not found"}, 404
 
-    entries = request.get_json()
+    entries: list[dict] | None = request.get_json()
 
     if not entries:
         return {"error": "No entries supplied"}, 400
     
-    updated_count = 0
+    updated_count: int = 0
 
     for entry in entries:
-        amount = entry["amount"]
-        bid = entry["bid"]
+        amount: float = entry["amount"]
+        bid: int = entry["bid"]
 
-        budget_entry = get_budget_entry(bid)
+        budget_entry: BudgetEntry | None = get_budget_entry(bid)
 
 
         print(budget_entry.amount)
@@ -127,18 +128,18 @@ def save_budget(LedgerId):
 
 @bp.route('/<int:LedgerId>/budget/add_year', methods=['POST'])
 @login_required
-def add_year(LedgerId):
+def add_year(LedgerId: int) -> str | tuple[str, int] | tuple[dict, int]:
     ledger = get_ledger(LedgerId)
     if ledger is None:
         return {"error": "Ledger not found"}, 404
     
 
     
-    categories:list[Category] = list_categories(LedgerId)
+    categories: list[Category] = list_categories(LedgerId)
     if categories is None:
         return "Categories not found", 404
 
-    budget = list_budget_entries(LedgerId)
+    budget: list[BudgetEntry] | None = list_budget_entries(LedgerId)
     if budget is None:
         return "budget not found", 404
     

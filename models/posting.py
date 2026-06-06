@@ -1,17 +1,17 @@
 from database import db_connection
 
 class Posting:
-    def __init__(self, pid, lid, cid, amount, description, category_name, type_name, posting_date):
-        self.pid = pid
-        self.lid = lid
-        self.cid = cid
-        self.amount = amount
-        self.description = description
-        self.category_name = category_name
-        self.type_name = type_name
-        self.posting_date = posting_date
+    def __init__(self, pid: int, lid: int, cid: int, amount: float, description: str | None, category_name: str, type_name: str, posting_date: str) -> None:
+        self.pid: int = pid
+        self.lid: int = lid
+        self.cid: int = cid
+        self.amount: float = amount
+        self.description: str | None = description
+        self.category_name: str = category_name
+        self.type_name: str = type_name
+        self.posting_date: str = posting_date
 
-def find_category(cid):
+def find_category(cid: int) -> str | None:
     conn = db_connection()
     db_category = conn.execute(
         "SELECT category_name FROM categories WHERE cid = ?",
@@ -24,7 +24,7 @@ def find_category(cid):
     return None
 
 
-def list_postings(lid):
+def list_postings(lid: int) -> list[Posting]:
     conn = db_connection()
     db_postings = conn.execute(
         "SELECT * FROM posting_details WHERE lid = ? ORDER BY pid",
@@ -32,7 +32,7 @@ def list_postings(lid):
     ).fetchall()
     conn.close()
 
-    postings = []
+    postings: list[Posting] = []
     for db_posting in db_postings:
         
         postings.append(Posting(
@@ -47,7 +47,7 @@ def list_postings(lid):
         ))
     return postings
 
-def get_posting(pid):
+def get_posting(pid: int) -> Posting | None:
     conn = db_connection()
     db_posting = conn.execute(
         "SELECT * FROM posting_details WHERE pid = ?",
@@ -68,7 +68,7 @@ def get_posting(pid):
         )
     return None
 
-def insert_posting(lid, cid, amount, description, posting_date):
+def insert_posting(lid: int, cid: int, amount: float, description: str | None, posting_date: str) -> int | None:
     conn = db_connection()
     cur = conn.execute(
         "INSERT INTO postings (lid, cid, amount, description, posting_date) VALUES (?, ?, ?, ?, ?)",
@@ -79,7 +79,7 @@ def insert_posting(lid, cid, amount, description, posting_date):
     conn.close()
     return posting_id
 
-def update_posting(pid, cid, amount, description):
+def update_posting(pid: int, cid: int, amount: float, description: str | None) -> None:
     conn = db_connection()
     conn.execute(
         "UPDATE postings SET cid = ?, amount = ?, description = ? WHERE pid = ?",
@@ -88,7 +88,7 @@ def update_posting(pid, cid, amount, description):
     conn.commit()
     conn.close()
 
-def delete_posting(pid):
+def delete_posting(pid: int) -> None:
     conn = db_connection()
     conn.execute("DELETE FROM postings WHERE pid = ?",
                  (pid,)

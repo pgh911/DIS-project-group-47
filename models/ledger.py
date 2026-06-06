@@ -1,13 +1,14 @@
+import sqlite3
 from database import db_connection
 
 class Ledger:
-    def __init__(self, lid, ledger_name, user_id=None):
-        self.lid = lid
-        self.ledger_name = ledger_name
-        self.user_id = user_id
+    def __init__(self, lid: int, ledger_name: str, user_id: int | None = None) -> None:
+        self.lid: int = lid
+        self.ledger_name: str = ledger_name
+        self.user_id: int | None = user_id
 
 
-def list_ledgers(user_id):
+def list_ledgers(user_id: int) -> list[Ledger]:
     conn = db_connection()
     db_ledgers = conn.execute(
         "SELECT * FROM ledgers WHERE user_id = ? ORDER BY lid",
@@ -15,13 +16,13 @@ def list_ledgers(user_id):
     ).fetchall()
     conn.close()
 
-    ledgers = []
+    ledgers: list[Ledger] = []
     for db_ledger in db_ledgers:
         ledgers.append(Ledger(db_ledger['lid'], db_ledger['ledger_name'], db_ledger['user_id']))
     return ledgers
 
 
-def get_ledger(lid):
+def get_ledger(lid: int) -> Ledger | None:
     conn = db_connection()
     db_ledger = conn.execute(
         "SELECT * FROM ledgers WHERE lid = ?",
@@ -34,7 +35,7 @@ def get_ledger(lid):
     return None
 
 
-def insert_ledger(user_id, ledger_name):
+def insert_ledger(user_id: int, ledger_name: str) -> int | None:
     conn = db_connection()
     cur = conn.execute(
         "INSERT INTO ledgers (user_id, ledger_name) VALUES (?, ?)",
@@ -46,7 +47,7 @@ def insert_ledger(user_id, ledger_name):
     return ledger_id
 
 
-def update_ledger(lid, new_name):
+def update_ledger(lid: int, new_name: str) -> None:
     conn = db_connection()
     conn.execute(
         "UPDATE ledgers SET ledger_name = ? WHERE lid = ?",
@@ -56,13 +57,13 @@ def update_ledger(lid, new_name):
     conn.close()
 
 
-def delete_ledger(lid):
+def delete_ledger(lid: int) -> None:
     conn = db_connection()
     conn.execute("DELETE FROM ledgers WHERE lid = ?", (lid,))
     conn.commit()
     conn.close()
 
-def get_category_total(lid):
+def get_category_total(lid: int) -> list[sqlite3.Row]:
     conn = db_connection()
     db_total = conn.execute(
         """
