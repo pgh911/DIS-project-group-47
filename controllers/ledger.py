@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from werkzeug.wrappers import Response as WerkzeugResponse
 
 from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_category_total
-from models.posting import Posting, list_postings, insert_posting
+from models.posting import Posting, list_postings, insert_posting, delete_posting, update_posting
 from models.categories import Category, CategoryType, list_categories
 from models.budget import BudgetEntry, list_budget_entries, list_budget_years, get_budget_entry, update_budget_entry, add_ledger_year
 
@@ -42,10 +42,12 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
 
 @bp.route('/<int:LedgerId>/postings', methods=['GET', 'POST'])
 @login_required
-def postings(LedgerId: int) -> str | tuple[str, int]:
+def postings(LedgerId: int) -> str | tuple[str, int] | WerkzeugResponse:
     ledger = get_ledger(LedgerId)
     if request.method == "POST":
-        if request.form["action"] and request.form["action"] == "create_posting":
+        action: str = request.form["action"]
+
+        if action == "create_posting":
             insert_posting(
                 lid=request.form["lid"],
                 cid=request.form["cid"],
@@ -53,6 +55,19 @@ def postings(LedgerId: int) -> str | tuple[str, int]:
                 description=request.form["description"],
                 posting_date=request.form["posting_date"]
             )
+        elif action == "delete_posting":
+            delete_posting(pid=int(request.form["pid"]))
+
+        elif action == "update_posting":
+            update_posting(
+                pid=int(request.form["pid"]),
+                cid=int(request.form["cid"]),
+                amount=float(request.form["amount"]),
+                description=request.form["description"]
+            )
+
+        return redirect(url_for('ledger.postings', LedgerId=LedgerId))
+
     if ledger is None:
         return "Ledger not found", 404
     
