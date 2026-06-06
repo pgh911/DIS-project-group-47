@@ -4,7 +4,7 @@ from werkzeug.wrappers import Response as WerkzeugResponse
 
 from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_category_total
 from models.posting import Posting, list_postings, insert_posting, delete_posting, update_posting
-from models.categories import Category, CategoryType, list_categories
+from models.categories import Category, CategoryType, list_categories, insert_category, update_category, delete_category, list_category_types
 from models.budget import BudgetEntry, list_budget_entries, list_budget_years, get_budget_entry, update_budget_entry, add_ledger_year
 
 bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
@@ -66,15 +66,12 @@ def postings(LedgerId: int) -> str | tuple[str, int] | WerkzeugResponse:
                 description=request.form["description"]
             )
 
-        return redirect(url_for('ledger.postings', LedgerId=LedgerId))
-
     if ledger is None:
         return "Ledger not found", 404
     
     categories: list[Category] = list_categories(LedgerId)
     postings: list[Posting] = list_postings(LedgerId)
     return render_template('pages/postings.html', ledger=ledger, postings=postings, categories=categories)
-
 
 @bp.route('/<int:LedgerId>/budget', methods=['GET', 'POST'])
 @login_required
@@ -125,7 +122,6 @@ def save_budget(LedgerId: int) -> tuple[dict, int]:
 
         budget_entry: BudgetEntry | None = get_budget_entry(bid)
 
-
         print(budget_entry.amount)
         if budget_entry.amount != amount:
             updated_count += 1
@@ -140,15 +136,12 @@ def save_budget(LedgerId: int) -> tuple[dict, int]:
         "updated": updated_count
     }, 200
 
-
 @bp.route('/<int:LedgerId>/budget/add_year', methods=['POST'])
 @login_required
 def add_year(LedgerId: int) -> str | tuple[str, int] | tuple[dict, int]:
     ledger = get_ledger(LedgerId)
     if ledger is None:
         return {"error": "Ledger not found"}, 404
-    
-
     
     categories: list[Category] = list_categories(LedgerId)
     if categories is None:
@@ -165,4 +158,34 @@ def add_year(LedgerId: int) -> str | tuple[str, int] | tuple[dict, int]:
 
     return render_template('pages/budget.html', ledger=ledger, budget=budget, budget_years=budget_years, categories=categories)
 
+@bp.route('/<int:LedgerId>/categories', methods=['GET', 'POST'])
+@login_required
+def categories(LedgerId: int) -> str | tuple[str, int] | WerkzeugResponse:
+    ledger = get_ledger(LedgerId)
 
+    if ledger is None:
+        return "Ledger not found", 404
+
+    if request.method == "POST":
+        action: str = request.form["action"]
+
+        if action == "create_category":
+            insert_category(
+                category_name=request.form["category_name"],
+                type_id=int(request.form["type_id"]),
+                lid=LedgerId
+            )
+        elif action == "update_category":
+            update_category(
+                cid=int(request.form["cid"]),
+                category_name=request.form["category_name"],
+                type_id=int(request.form["type_id"])
+            )
+        elif action == "delete_category":
+            delete_category(cid=int(request.form["cid"]))
+
+        return redirect(url_for('ledger.categories', LedgerId=LedgerId))
+
+    category_list: list[Category] = list_categories(LedgerId)
+    category_types: list[CategoryType] = list_category_types()
+    return render_template('pages/categories.html', ledger=ledger, categories=category_list, category_types=category_types)
