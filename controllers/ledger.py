@@ -2,10 +2,10 @@ from flask import Blueprint, render_template, request, redirect, url_for, Respon
 from flask_login import login_required, current_user
 from werkzeug.wrappers import Response as WerkzeugResponse
 
-from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_summed_totals, SummedTotal
+from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_summed_totals, SummedTotal, Ledger
 from models.posting import Posting, list_postings, insert_posting, delete_posting, update_posting
 from models.categories import Category, CategoryType, list_categories, insert_category, update_category, delete_category, list_category_types
-from models.budget import BudgetEntry, list_budget_entries, list_budget_years, get_budget_entry, update_budget_entry, add_ledger_year
+from models.budget import BudgetEntry, list_budget_entries, list_budget_years, get_budget_entry, update_budget_entry, add_ledger_year, LedgerYear
 
 bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
 
@@ -31,14 +31,17 @@ def ledgers() -> str | WerkzeugResponse:
 @login_required
 def ledger(LedgerId: int) -> str | tuple[str, int]:
 
-    ledger = get_ledger(LedgerId)
-    postings = list_postings(LedgerId)
-    categories = list_categories(LedgerId)
-    summed_totals:list[SummedTotal] = get_summed_totals(LedgerId)
+    ledger:list[Ledger] = get_ledger(LedgerId)
+    summed_totals:list[SummedTotal] = get_summed_totals(LedgerId, 2026, 6)
+    ledger_years:list[LedgerYear] = list_budget_years(LedgerId)
     
     if ledger is None:
         return "Ledger not found", 404
-    return render_template('pages/ledger.html', ledger=ledger, postings=postings, categories=categories, summed_totals=summed_totals)
+    
+    return render_template('pages/ledger.html', 
+                           ledger=ledger, 
+                           summed_totals=summed_totals,
+                           ledger_years=ledger_years)
 
 @bp.route('/<int:LedgerId>/postings', methods=['GET', 'POST'])
 @login_required

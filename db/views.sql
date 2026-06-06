@@ -18,7 +18,8 @@ SELECT
     p.amount,
     p.description,
     p.posting_date,
-    DATE (p.posting_date, 'start of month') AS posting_month
+    CAST(strftime('%m', p.posting_date) AS INTEGER) AS posting_month,
+    CAST(strftime('%Y', p.posting_date) AS INTEGER) AS posting_year
 FROM
     postings p
     JOIN categories c ON p.cid = c.cid
@@ -41,6 +42,7 @@ SELECT
     ca.category_name,
     ca.type_name,
     pd.posting_month,
+    pd.posting_year,
     COALESCE(
         CASE
             WHEN ca.type_name = 'expense' THEN SUM(ABS(pd.amount) * -1)
@@ -57,4 +59,5 @@ GROUP BY
     ca.lid,
     ca.category_name,
     ca.type_name,
-    pd.posting_month;
+    pd.posting_month,
+    pd.posting_year;

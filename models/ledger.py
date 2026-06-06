@@ -8,12 +8,13 @@ class Ledger:
         self.user_id: int | None = user_id
 
 class SummedTotal:
-    def __init__(self, lid:int, category_name:str, type_name:str, posting_month, total_amount:float):
+    def __init__(self, lid:int, category_name:str, type_name:str, posting_month:int, total_amount:float, posting_year:int):
         self.lid = lid
         self.category_name = category_name
         self.type_name = type_name
         self.posting_month = posting_month
         self.total_amount = total_amount
+        self.posting_year = posting_year
 
 
 def list_ledgers(user_id: int) -> list[Ledger]:
@@ -71,7 +72,11 @@ def delete_ledger(lid: int) -> None:
     conn.commit()
     conn.close()
 
-def get_summed_totals(lid: int) -> list[sqlite3.Row]:
+def get_summed_totals(
+        lid: int, 
+        year: int,
+        month: int
+        ) -> list[SummedTotal]:
     conn = db_connection()
     db_total = conn.execute(
         """
@@ -79,11 +84,12 @@ def get_summed_totals(lid: int) -> list[sqlite3.Row]:
             *
         FROM posting_sum c
         WHERE c.lid = ?
+        AND c.posting_month = ?
+        AND c.posting_year = ?
         """,
-        (lid,)
+        (lid,month,year,)
     ).fetchall()
     conn.close()
-
 
     summed_totals: list[SummedTotal] = []
     for entry in db_total:
@@ -93,10 +99,41 @@ def get_summed_totals(lid: int) -> list[sqlite3.Row]:
                 category_name=entry["category_name"],
                 type_name=entry["type_name"],
                 posting_month=entry["posting_month"],
+                posting_year=entry["posting_year"],
                 total_amount=entry["total_amount"] 
             )
         )
 
     return summed_totals
 
+def get_summed_totals_fullyear(
+        lid: int, 
+        year: int,
+    ) -> list[sqlite3.Row]:
+    conn = db_connection()
+    db_total = conn.execute(
+        """
+        SELECT
+            *
+        FROM posting_sum c
+        WHERE c.lid = ?
+        AND c.posting_year = ?
+        """,
+        (lid,year,)
+    ).fetchall()
+    conn.close()
 
+    summed_totals: list[SummedTotal] = []
+    for entry in db_total:
+        summed_totals.append(
+            SummedTotal(
+                lid=entry["lid"],
+                category_name=entry["category_name"],
+                type_name=entry["type_name"],
+                posting_month=entry["posting_month"],
+                posting_year=entry["posting_year"],
+                total_amount=entry["total_amount"] 
+            )
+        )
+
+    return summed_totals
