@@ -137,14 +137,20 @@ def list_budget_entries_detailed(lid: int, year:int, month:int) -> list[BudgetEn
     conn = db_connection()
 
     budget_entries = conn.execute(
-        "SELECT * FROM budget_details WHERE lid = ? AND ledger_year = ? AND month = ?",
+        """
+            SELECT
+            *
+            FROM 
+                budget_details 
+            WHERE lid = ? 
+                AND ledger_year = ? 
+                AND month = ?
+        """,
         (lid,year,month,)
     ).fetchall()
     
     conn.close()
-
-    if budget_entries is None:
-        return None
+    print(len(budget_entries))
 
     entries: list[BudgetEntryDetailed] = []
     for entry in budget_entries:
@@ -160,7 +166,7 @@ def list_budget_entries_detailed(lid: int, year:int, month:int) -> list[BudgetEn
             category_name=entry["category_name"],
             ledger_year=entry["ledger_year"]
         ))
-    
+    print(entries)
     return entries
 
 def list_budget_entries_detailed_fullyear(lid: int, year:int) -> list[BudgetEntryDetailed] | None:
@@ -173,9 +179,7 @@ def list_budget_entries_detailed_fullyear(lid: int, year:int) -> list[BudgetEntr
                 bid,
                 year_id,
                 amount,
-                cid,
                 lid,
-                type_id,
                 type_name,
                 category_name,
                 ledger_year
@@ -184,16 +188,16 @@ def list_budget_entries_detailed_fullyear(lid: int, year:int) -> list[BudgetEntr
             WHERE lid = ? 
                 AND ledger_year = ? 
             GROUP BY 
-                ledger_year, 
-                category_name
+                lid,
+                type_name,
+                category_name,
+                ledger_year
         """,
         (lid,year,)
     ).fetchall()
     
     conn.close()
  
-    if budget_entries is None:
-        return None
 
     entries: list[BudgetEntryDetailed] = []
     for entry in budget_entries:
@@ -201,9 +205,9 @@ def list_budget_entries_detailed_fullyear(lid: int, year:int) -> list[BudgetEntr
             bid=entry['bid'],
             year_id=entry['year_id'],
             amount=entry['amount'],
-            cid=entry['cid'],
+            cid=None,
             lid=entry['lid'],
-            type_id=entry['type_id'],
+            type_id=None,
             month=None,
             type_name=entry["type_name"],
             category_name=entry["category_name"],

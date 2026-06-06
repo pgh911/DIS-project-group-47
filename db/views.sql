@@ -64,19 +64,15 @@ GROUP BY
     pd.posting_year;
 
 
-CREATE VIEW 
-    budget_details AS 
+CREATE VIEW budget_details AS
 SELECT
     be.*,
-    COALESCE(
-        CASE
-            WHEN cd.type_name = 'expense' THEN SUM(ABS(be.amount) * -1)
-            WHEN cd.type_name = 'saving' THEN SUM(ABS(be.amount))
-            WHEN cd.type_name = 'income' THEN SUM(ABS(be.amount))
-            ELSE SUM(be.amount)
-        END,
-        0
-    ) AS total_amount,
+    CASE
+        WHEN cd.type_name = 'expense' THEN ABS(be.amount) * -1
+        WHEN cd.type_name = 'saving' THEN ABS(be.amount)
+        WHEN cd.type_name = 'income' THEN ABS(be.amount)
+        ELSE be.amount
+    END AS total_amount,
     cd.type_name,
     cd.category_name,
     ly.ledger_year

@@ -46,9 +46,8 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
             summed_totals = get_summed_totals(LedgerId, request.form["year"], request.form["month"])
             budget_entries:list[BudgetEntry] = list_budget_entries_detailed(LedgerId, request.form["year"], request.form["month"])
     
-    if ledger is None:
-        return "Ledger not found", 404
-    
+
+    print(budget_entries)
     return render_template('pages/ledger.html', 
                            ledger=ledger, 
                            summed_totals=summed_totals,
