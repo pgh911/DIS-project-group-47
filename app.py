@@ -28,7 +28,11 @@ def register() -> str | int | WerkzeugResponse:
         
         password: str = request.form['password']
         username: str = request.form['email']
-        user_id: int | None = create_user(email=username, password=password)
+
+        try:
+            user_id: int | None = create_user(email=username, password=password)
+        except ValueError as e:
+            return render_template("pages/register.html", error=str(e))
         
         if user_id:
             conn = db_connection()

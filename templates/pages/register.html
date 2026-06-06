@@ -13,6 +13,9 @@
 			<!-- Left panel (2/5 width) -->
 			<div class="w-40 bg-white d-flex align-items-center justify-content-center" style="width: 40%;">
 			<div class="bg-light rounded p-4" style="width: 16rem;">
+				{% if error %}
+				<div class="alert alert-danger">{{ error }}</div>
+				{% endif %}
 				<form action="/register" method="POST">
 				<h3 class="mb-3">Register</h3>
 
