@@ -7,6 +7,14 @@ class Ledger:
         self.ledger_name: str = ledger_name
         self.user_id: int | None = user_id
 
+class SummedTotal:
+    def __init__(self, lid:int, category_name:str, type_name:str, posting_month, total_amount:float):
+        self.lid = lid
+        self.category_name = category_name
+        self.type_name = type_name
+        self.posting_month = posting_month
+        self.total_amount = total_amount
+
 
 def list_ledgers(user_id: int) -> list[Ledger]:
     conn = db_connection()
@@ -63,7 +71,7 @@ def delete_ledger(lid: int) -> None:
     conn.commit()
     conn.close()
 
-def get_category_total(lid: int) -> list[sqlite3.Row]:
+def get_summed_totals(lid: int) -> list[sqlite3.Row]:
     conn = db_connection()
     db_total = conn.execute(
         """
@@ -75,6 +83,20 @@ def get_category_total(lid: int) -> list[sqlite3.Row]:
         (lid,)
     ).fetchall()
     conn.close()
-    return db_total
+
+
+    summed_totals: list[SummedTotal] = []
+    for entry in db_total:
+        summed_totals.append(
+            SummedTotal(
+                lid=entry["lid"],
+                category_name=entry["category_name"],
+                type_name=entry["type_name"],
+                posting_month=entry["posting_month"],
+                total_amount=entry["total_amount"] 
+            )
+        )
+
+    return summed_totals
 
 
