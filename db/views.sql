@@ -3,8 +3,9 @@ DROP VIEW IF EXISTS posting_details;
 DROP VIEW IF EXISTS posting_sum;
 
 DROP VIEW IF EXISTS categories_totals;
-
 DROP VIEW IF EXISTS category_details;
+
+DROP VIEW IF EXISTS budget_details;
 
 CREATE VIEW
     posting_details AS
@@ -29,7 +30,7 @@ FROM
 CREATE VIEW category_details AS 
 SELECT 
     ca.*,
-    ct.type_name
+    ct.type_name as type_name
 FROM categories ca
 INNER JOIN category_types ct
 ON ca.type_id = ct.type_id;
@@ -61,3 +62,26 @@ GROUP BY
     ca.type_name,
     pd.posting_month,
     pd.posting_year;
+
+
+CREATE VIEW 
+    budget_details AS 
+SELECT
+    be.*,
+    COALESCE(
+        CASE
+            WHEN cd.type_name = 'expense' THEN SUM(ABS(be.amount) * -1)
+            WHEN cd.type_name = 'saving' THEN SUM(ABS(be.amount))
+            WHEN cd.type_name = 'income' THEN SUM(ABS(be.amount))
+            ELSE SUM(be.amount)
+        END,
+        0
+    ) AS total_amount,
+    cd.type_name,
+    cd.category_name,
+    ly.ledger_year
+FROM budget_entries be
+LEFT JOIN ledger_years ly
+    ON be.year_id = ly.year_id
+LEFT JOIN category_details cd
+    ON be.cid = cd.cid;

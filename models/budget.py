@@ -16,6 +16,22 @@ class BudgetEntry:
         self.amount: float = amount
         self.month: int = month
 
+class BudgetEntryDetailed(BudgetEntry):
+    def __init__( self, bid: int, year_id: int, amount: float, cid: int, lid: int, type_id: int, month: int, type_name: str, category_name: str, ledger_year: int) -> None:
+        super().__init__(
+            bid=bid,
+            year_id=year_id,
+            amount=amount,
+            cid=cid,
+            lid=lid,
+            type_id=type_id,
+            month=month
+        )
+
+        self.type_name: str = type_name
+        self.category_name: str = category_name
+        self.ledger_year: int = ledger_year
+
 def list_budget_years(lid: int) -> list[LedgerYear]:
     conn = db_connection()
 
@@ -116,3 +132,63 @@ def add_ledger_year(lid: int, year: int) -> None:
     conn.execute("INSERT OR IGNORE INTO ledger_years (ledger_year, lid) VALUES (?, ?)", (year,lid))
     conn.commit()
     conn.close()
+
+def list_budget_entries_detailed(lid: int, year:int, month:int) -> list[BudgetEntryDetailed] | None:
+    conn = db_connection()
+
+    budget_entries = conn.execute(
+        "SELECT * FROM budget_details WHERE lid = ? AND ledger_year = ? AND month = ?",
+        (lid,year,month,)
+    ).fetchall()
+    
+    conn.close()
+
+    if budget_entries is None:
+        return None
+
+    entries: list[BudgetEntryDetailed] = []
+    for entry in budget_entries:
+        entries.append(BudgetEntryDetailed(
+            bid=entry['bid'],
+            year_id=entry['year_id'],
+            amount=entry['amount'],
+            cid=entry['cid'],
+            lid=entry['lid'],
+            type_id=entry['type_id'],
+            month=entry['month'],
+            type_name=entry["type_name"],
+            category_name=entry["category_name"],
+            ledger_year=entry["ledger_year"]
+        ))
+    
+    return entries
+
+def list_budget_entries_detailed_fullyear(lid: int, year:int) -> list[BudgetEntryDetailed] | None:
+    conn = db_connection()
+
+    budget_entries = conn.execute(
+        "SELECT ledger_year, category_name, SUM(amount) as amount, ledger_year FROM budget_details WHERE lid = ? AND ledger_year = ? GROUP BY ledger_year, category_name",
+        (lid,year,)
+    ).fetchall()
+    
+    conn.close()
+
+    if budget_entries is None:
+        return None
+
+    entries: list[BudgetEntryDetailed] = []
+    for entry in budget_entries:
+        entries.append(BudgetEntryDetailed(
+            bid=entry['bid'],
+            year_id=entry['year_id'],
+            amount=entry['amount'],
+            cid=entry['cid'],
+            lid=entry['lid'],
+            type_id=entry['type_id'],
+            month=entry['month'],
+            type_name=entry["type_name"],
+            category_name=entry["category_name"],
+            ledger_year=entry["ledger_year"]
+        ))
+    
+    return entries

@@ -5,7 +5,7 @@ from werkzeug.wrappers import Response as WerkzeugResponse
 from models.ledger import insert_ledger, list_ledgers, get_ledger, delete_ledger, get_summed_totals,get_summed_totals_fullyear, SummedTotal, Ledger
 from models.posting import Posting, list_postings, insert_posting, delete_posting, update_posting
 from models.categories import Category, CategoryType, list_categories, insert_category, update_category, delete_category, list_category_types
-from models.budget import BudgetEntry, list_budget_entries, list_budget_years, get_budget_entry, update_budget_entry, add_ledger_year, LedgerYear
+from models.budget import BudgetEntry, list_budget_entries, list_budget_years, get_budget_entry, update_budget_entry, add_ledger_year, LedgerYear, list_budget_entries_detailed, list_budget_entries_detailed_fullyear
 
 bp = Blueprint('ledger', __name__, url_prefix='/ledgers')
 
@@ -34,13 +34,17 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
     ledger:list[Ledger] = get_ledger(LedgerId)
     ledger_years:list[LedgerYear] = list_budget_years(LedgerId)
     summed_totals = get_summed_totals_fullyear(LedgerId, ledger_years[0].ledger_year)
+    budget_entries:list[BudgetEntry] = list_budget_entries_detailed_fullyear(LedgerId, ledger_years[0].ledger_year)
+    summed_totals:list[SummedTotal] = get_summed_totals_fullyear(LedgerId, ledger_years[0].ledger_year)
 
-    summed_totals:list[SummedTotal] = []
     if request.form.get("action") and request.form.get("action") == "update-timeframe":
         if request.form["month"] == "all":
             summed_totals = get_summed_totals_fullyear(LedgerId, request.form["year"])
+            budget_entries:list[BudgetEntry] = list_budget_entries_detailed_fullyear(LedgerId, request.form["year"])
+
         elif request.form["month"]:
             summed_totals = get_summed_totals(LedgerId, request.form["year"], request.form["month"])
+            budget_entries:list[BudgetEntry] = list_budget_entries_detailed(LedgerId, request.form["year"], request.form["month"])
     
     if ledger is None:
         return "Ledger not found", 404
@@ -48,7 +52,8 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
     return render_template('pages/ledger.html', 
                            ledger=ledger, 
                            summed_totals=summed_totals,
-                           ledger_years=ledger_years)
+                           ledger_years=ledger_years,
+                           budget_entries=budget_entries)
 
 @bp.route('/<int:LedgerId>/postings', methods=['GET', 'POST'])
 @login_required

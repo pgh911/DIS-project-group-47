@@ -113,11 +113,17 @@ def get_summed_totals_fullyear(
     conn = db_connection()
     db_total = conn.execute(
         """
-        SELECT
-            *
+        SELECT            
+            c.lid,
+            c.category_name,
+            c.type_name,
+            c.posting_year,
+            SUM(c.total_amount) AS total_amount
         FROM posting_sum c
         WHERE c.lid = ?
         AND c.posting_year = ?
+        GROUP BY 
+            c.lid, c.category_name, c.type_name, c.posting_year
         """,
         (lid,year,)
     ).fetchall()
@@ -130,7 +136,7 @@ def get_summed_totals_fullyear(
                 lid=entry["lid"],
                 category_name=entry["category_name"],
                 type_name=entry["type_name"],
-                posting_month=entry["posting_month"],
+                posting_month=None,
                 posting_year=entry["posting_year"],
                 total_amount=entry["total_amount"] 
             )
