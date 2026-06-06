@@ -94,7 +94,7 @@ def get_category(cid: int) -> Category | None:
 def insert_category(category_name: str, type_id: int, lid: int) -> int | None:
     conn = db_connection()
     cur = conn.execute(
-        "INSERT INTO categories (category_name, type_id, lid) VALUES (?, ?, ?)",
+        "INSERT OR IGNORE INTO categories (category_name, type_id, lid) VALUES (?, ?, ?)",
         (category_name, type_id, lid)
     )
     conn.commit()

@@ -1,0 +1,44 @@
+{% macro create_category_form(ledger, categories) %}
+<div class="py-3">
+	<form method="POST">
+		<input
+			type="hidden"
+			name="action"
+			value="create-category" />
+		<input
+			type="hidden"
+			name="lid"
+			required
+			value="{{ ledger.lid }}" />
+		<div class="form-group row">
+			<div class="col">
+				<input
+					class="form-control"
+					type="text"
+					name="category_name"
+					required
+					placeholder="category_name" />
+			</div>
+			<div class="col">
+				<select
+					class="form-select"
+					name="type_id"
+					required
+					aria-placeholder="Select category type"
+					aria-label="Select category type">
+					<option value="1">Expense</option>
+					<option value="2">Saving</option>
+					<option value="3">Income</option>
+				</select>
+			</div>
+			<div class="col">
+				<button
+					type="submit"
+					class="btn btn-primary">
+					Create category
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
+{% endmacro%}

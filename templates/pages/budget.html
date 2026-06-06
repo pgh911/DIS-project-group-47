@@ -1,6 +1,8 @@
 {% extends "layout.html" %} {% block title %} Budget | {{ ledger.ledger_name }}
 {% endblock %} {% from "components/ledgers/ledger_links.html" import
 ledger_links %} {% block content %}
+
+{% from "components/budget/create_category.html" import create_category_form %} 
 <div>
 	<h1>Ledger: {{ ledger.ledger_name }}</h1>
 	<hr />
@@ -9,6 +11,9 @@ ledger_links %} {% block content %}
 		<h2>Budget</h2>
 		<div class="container">
 			{% from "components/budget/year_table.html" import year_table %}
+
+			{{ create_category_form(ledger, categories) }}
+			
 			<div class="px-0 mb-4">
 				<form
 					method="POST"
@@ -32,8 +37,9 @@ ledger_links %} {% block content %}
 				</form>
 			</div>
 			<div>
-				{% for b in budget_years %} {{ year_table(b, budget, categories) }} {%
-				endfor %}
+				{% for b in budget_years %} 
+				{{ year_table(b, budget, categories) }} 
+				{% endfor %}
 			</div>
 		</div>
 	</section>

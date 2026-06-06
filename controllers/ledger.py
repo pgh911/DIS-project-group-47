@@ -98,6 +98,9 @@ def budget(LedgerId: int) -> str | tuple[str, int]:
             return "Year not found", 404
 
         add_ledger_year(LedgerId, year)
+    
+    if request.method == "POST" and request.form["action"] == "create-category":
+        insert_category(request.form["category_name"], request.form["type_id"], LedgerId)
 
     return render_template('pages/budget.html', ledger=ledger, budget=budget, budget_years=budget_years, categories=categories)
 
