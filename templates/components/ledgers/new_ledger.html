@@ -3,28 +3,21 @@
     <button class="border-0 bg-transparent p-0 new-ledger-btn" type="submit"
     style="color: #5a3e2b; transition: color 0.2s;">
     <div class="position-relative" style="width: 200px; height: 200px">
-    <div class="ledger position-relative rounded-3 overflow-hidden shadow-sm"
+    <div class="ledger position-relative rounded-3 overflow-hidden shadow-sm d-flex flex-column align-items-center justify-content-center"
         style="width: 180px; height: 220px; background-color: #f5f0e8">
             <input type="hidden" name="action" value="create" />
-            
             <div>
-                <input type="text" name="ledger_name" placeholder="Ledger name" required class="form-control form-control-sm" />
-            </div>
-            
-            <div class="d-flex justify-content-center align-items-center" style="height: 200px; width: 200px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="75" height="75" viewBox="0 0 50 50" fill="currentColor">
-                        <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"/>
-                    </svg>
-            </div>
-                
+                <input class="new-ledger-input" type="text" name="ledger_name" placeholder="Ledger name" required />
+                <div class="d-flex justify-content-center mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="75" height="75" viewBox="0 0 50 50" fill="currentColor">
+                            <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"/>
+                        </svg>
+                </div>
             </div>
         </div>
+    </div>
     </button>
 </form>
 
-<style>
-.new-ledger-btn:hover {
-    color: #c0622a !important;
-}
-</style>
+
 {% endmacro %}
