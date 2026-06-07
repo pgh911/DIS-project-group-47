@@ -1,7 +1,7 @@
 1
 ---
 - [ ] Overblik skal laves færdig :: Thomas
-- [ ] Der skal på alle sider være tekst som beskriver hvad der foregår :: Jakob
+- [x] Der skal på alle sider være tekst som beskriver hvad der foregår :: Jakob
 - [ ] Der skal laves mere stock data som indsættes når db initialiseres :: Valdemar
 - [ ] Der skal laves E/R diagram :: Christian
 - [ ] README.md :: Valdemar
