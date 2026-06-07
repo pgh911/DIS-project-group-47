@@ -50,22 +50,18 @@ VALUES
 INSERT INTO
     postings (lid, cid, amount, description, posting_date)
 VALUES
-    -- Bank Account (lid = 1)
     (1, 7, 3000.00, 'Monthly salary', '2026-06-04'),
     (1, 1, -1200.00, 'Rent payment', '2026-06-04'),
     (1, 2, -250.00, 'Groceries', '2026-06-04'),
-    -- Cash Wallet (lid = 2)
     (2, 3, -40.00, 'Bus ticket', '2026-06-04'),
     (2, 8, 500.00, 'Freelance gig', '2026-06-04'),
-    -- Bank Account July
+    
     (1, 7, 3000.00, 'Monthly salary', '2026-07-04'),
     (1, 1, -1200.00, 'Rent payment', '2026-07-04'),
     (1, 2, -250.00, 'Groceries', '2026-07-04'),
-    -- Cash Wallet July
+    
     (2, 3, -40.00, 'Bus ticket', '2026-07-04'),
     (2, 8, 500.00, 'Freelance gig', '2026-07-04'),
-    
-    -- Tokyo Trip (lid = 3), cid offsets: Flights=20, Accommodation=21, Transport=22, Food=23, Activities=24, Shopping=25, Travel Fund=26
     
     (3, 20, -850.00, 'Return flights CPH-NRT', '2026-09-01'),
     (3, 26,  850.00, 'Travel fund contribution', '2026-08-01'),
