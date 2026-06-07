@@ -11,9 +11,11 @@ The ER diagram can be found in /docs.
 ## Regex
 There is regex on the /register page, on line 24, 28 and 34
 
+On the /postings page, there is regex validating that dates are in the format YYYY-MM-DD.
 
+Email and password regex is found in models/user.py.
 
-
+Date regex is found in models/posting.py.
 
 ## Compilation and Running Instructions
 Instructions to run:
