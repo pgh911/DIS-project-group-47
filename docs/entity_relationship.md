@@ -71,4 +71,4 @@ erDiagram
 PK = Primary Key
 FK = Foreign Key
 UK = Unique Key
-`\|\|--o{` = One-to-many relationship
+Lines = relationships, all of relationsship type one to many. A straight end closest to the parent entity indicates an 'exactly one' relationsship. The forked end with a circle closest to the child entity indicates a 'zero or many' relationsship.
