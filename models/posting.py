@@ -1,4 +1,20 @@
+import re
 from database import db_connection
+
+DATE_REGEX = re.compile(r'^\d{2}-\d{2}-\d{4}$')
+
+def validate_and_convert_date(date_str: str) -> str:
+    if not DATE_REGEX.match(date_str):
+        raise ValueError("Date must be in the format: DD-MM-YYYY")
+
+    day, month, year = date_str.split("-")
+
+    return f"{year}-{month}-{day}"
+
+def format_date_for_display(date_str: str) -> str:
+    year, month, day = date_str.split("-")
+
+    return f"{day}-{month}-{year}"
 
 class Posting:
     def __init__(self, pid: int, lid: int, cid: int, amount: float, description: str | None, category_name: str, type_name: str, posting_date: str) -> None:
@@ -9,7 +25,7 @@ class Posting:
         self.description: str | None = description
         self.category_name: str = category_name
         self.type_name: str = type_name
-        self.posting_date: str = posting_date
+        self.posting_date: str = format_date_for_display(posting_date)
 
 def find_category(cid: int) -> str | None:
     conn = db_connection()
@@ -69,6 +85,7 @@ def get_posting(pid: int) -> Posting | None:
     return None
 
 def insert_posting(lid: int, cid: int, amount: float, description: str | None, posting_date: str) -> int | None:
+    posting_date = validate_and_convert_date(posting_date)
     conn = db_connection()
     cur = conn.execute(
         "INSERT INTO postings (lid, cid, amount, description, posting_date) VALUES (?, ?, ?, ?, ?)",
