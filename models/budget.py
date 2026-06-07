@@ -182,6 +182,7 @@ def list_budget_entries_detailed_fullyear(lid: int, year:int) -> list[BudgetEntr
                 lid,
                 type_name,
                 category_name,
+                type_id,
                 ledger_year
             FROM 
                 budget_details 
@@ -191,12 +192,14 @@ def list_budget_entries_detailed_fullyear(lid: int, year:int) -> list[BudgetEntr
                 lid,
                 type_name,
                 category_name,
-                ledger_year
+                ledger_year,
+                type_id
         """,
         (lid,year,)
     ).fetchall()
     
     conn.close()
+
  
 
     entries: list[BudgetEntryDetailed] = []
@@ -207,7 +210,7 @@ def list_budget_entries_detailed_fullyear(lid: int, year:int) -> list[BudgetEntr
             amount=entry['amount'],
             cid=None,
             lid=entry['lid'],
-            type_id=None,
+            type_id=entry["type_id"],
             month=None,
             type_name=entry["type_name"],
             category_name=entry["category_name"],

@@ -51,38 +51,52 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
             summed_totals = get_summed_totals(LedgerId, request.form["year"], request.form["month"])
             budget_entries:list[BudgetEntry] = list_budget_entries_detailed(LedgerId, request.form["year"], request.form["month"])
 
-    
     percentList = []
-
+    idOne= 0
+    idTwo = 0
+    idThree = 0
+    idBOne = 0
+    idBTwo = 0
+    idBThree = 0
     for budget in budget_entries:
         percentage = 0
         sumTotal = 0
-
         for total in summed_totals:
             if (
                 budget.category_name == total.category_name
                 and budget.type_name == total.type_name
             ):
+                if(budget.type_id == 1):
+                    idOne = idOne + total.total_amount
+                    idOne = idBOne + budget.amount
+                elif (budget.type_id == 2):
+                    idTwo = idTwo + total.total_amount
+                    idTwo = idBTwo + budget.amount
+                elif (budget.type_id == 3) :
+                    idThree = idThree + total.total_amount
+                    idThree = idBThree + budget.amount
+
                 if budget.amount > 0:
                     percentage = round(
                         (abs(total.total_amount / budget.amount)) * 100,
-                        2
-                    )
+                        2)
                 sumTotal = total.total_amount
                 break
-
         percentList.append({
             "category_name": budget.category_name,
             "budget": budget.amount,
             "totalSum": sumTotal,
-            "percentage": percentage
+            "percentage": percentage,
+            "budgetID" : budget.type_id
         })
+    idTotalList = [idOne,idTwo,idThree,idBOne,idBTwo,idBThree]
     return render_template('pages/ledger.html', 
                            ledger=ledger, 
                            summed_totals=summed_totals,
                            ledger_years=ledger_years,
                            budget_entries=budget_entries,
-                           percentages = percentList)
+                           percentages = percentList,
+                           idList = idTotalList)
 
 @bp.route('/<int:LedgerId>/postings', methods=['GET', 'POST'])
 @login_required

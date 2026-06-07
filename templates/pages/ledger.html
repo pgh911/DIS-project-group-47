@@ -4,6 +4,7 @@ header %}
 <h1>Ledger: {{ ledger.ledger_name }}</h1>
 <hr />
 {% from "components/ledgers/ledger_links.html" import ledger_links %}
+{% from "components/budget/create_category.html" import create_category_form %}
 <div class="card my-3">
 	<div class="card-body">
 		On this page you can see an overview of your ledger. <br>
@@ -47,27 +48,10 @@ header %}
 		<button type="submit">Update</button>
 	</form>
 
-	<ul class="list-group-flush">
-		<b>Postings</b>
-		{% for entry in summed_totals %}
-		<li>
-			<span>{{ entry.category_name }}</span>
-			<small>{{ entry.total_amount }}</small>
-		</li>
-		{% endfor %}
-	</ul>
-	<ul class="list-group-flush">
-		<b>Budget</b>
-		{% for entry in percentages %}
-		<li>
-			<span>{{ entry.category_name }}</span>
-			<small>{{ entry.budget }}</small>
-            <small>{{ entry.percentage }}</small>
-		</li>
-		{% endfor %}
-	</ul>
-    <table class="table">
-        <thead>
+
+	<h3>Expenses</h3>
+	<table class="table">
+		<thead>
             <tr>
                 <th>Category</th>
                 <th>Postings</th>
@@ -75,16 +59,90 @@ header %}
                 <th>% Used</th>
             </tr>
         </thead>
-        <tbody>
-            {% for entry in percentages %}
+    	<tbody>
+        	{% for entry in percentages %}
+            	{% if entry.budgetID == 1 %}
+            	<tr class="table-danger">
+                	<td>{{ entry.category_name }}</td>
+                	<td>{{ entry.totalSum }}</td>
+                	<td>{{ entry.budget }}</td>
+                	<td>{{ entry.percentage }}%</td>
+            	</tr>
+            	{% endif %}
+        	{% endfor %}
+    	</tbody>
+		<tfoot>
+        	<tr>
+            	<th>Total</th>
+            	<td>{{ idList[0] }}</td>
+				<td>{{ idList[3] }}</td>
+            	<td></td>
+            	<td></td>
+        	</tr>
+    	</tfoot>
+	</table>
+	<h3>Savings</h3>
+	<table class="table">
+		<thead>
             <tr>
-                <td>{{ entry.category_name }}</td>
-                <td>{{ entry.totalSum }}</td>
-                <td>{{ entry.budget }}</td>
-                <td>{{ entry.percentage }}%</td>
+                <th>Category</th>
+                <th>Postings</th>
+                <th>Budget</th>
+                <th>% Used</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+        </thead>
+    	<tbody>
+        	{% for entry in percentages %}
+            	{% if entry.budgetID == 2 %}
+            	<tr class="table-primary">
+                	<td>{{ entry.category_name }}</td>
+                	<td>{{ entry.totalSum }}</td>
+                	<td>{{ entry.budget }}</td>
+                	<td>{{ entry.percentage }}%</td>
+            	</tr>
+            	{% endif %}
+        	{% endfor %}
+    	</tbody>
+		<tfoot>
+        	<tr>
+            	<th>Total</th>
+            	<td>{{ idList[1] }}</td>
+				<td>{{ idList[4] }}</td>
+            	<td></td>
+            	<td></td>
+        	</tr>
+    	</tfoot>
+	</table>
+	<h3>Income</h3>
+	<table class="table">
+		<thead>
+            <tr>
+                <th>Category</th>
+                <th>Postings</th>
+                <th>Budget</th>
+                <th>% Used</th>
+            </tr>
+        </thead>
+    	<tbody>
+        	{% for entry in percentages %}
+            	{% if entry.budgetID == 3 %}
+            	<tr class="table-success">
+                	<td>{{ entry.category_name }}</td>
+                	<td>{{ entry.totalSum }}</td>
+                	<td>{{ entry.budget }}</td>
+                	<td>{{ entry.percentage }}%</td>
+            	</tr>
+            	{% endif %}
+        	{% endfor %}
+    	</tbody>
+		<tfoot>
+        	<tr>
+            	<th>Total</th>
+            	<td>{{ idList[2] }}</td>
+				<td>{{ idList[5] }}</td>
+            	<td></td>
+            	<td></td>
+        	</tr>
+    	</tfoot>
+	</table>
 {% endblock %}
