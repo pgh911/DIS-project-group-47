@@ -4,20 +4,30 @@ header %}
 <hr />
 {% from "components/ledgers/ledger_links.html" import ledger_links %}
 <h1>Ledger: {{ ledger.ledger_name }}</h1>
+<div class="card my-3">
+	<div class="card-body">
+		On this page you can see an overview of your ledger. <br>
+		The value of the <b>postings</b> is compared to the <b>budget</b>. <br>
+	</div>
+</div>
+
 {{ ledger_links(ledger) }}
 
 <div class="category-section">
 	<h3>Categories</h3>
 
+	<p>til Thomas - vis beløb brugt pr. kategori, budget pr. kategori. Hvor mange procent af budgettet er faktisk nået? Hvor mange penge er der tilbage i budgettet.</p>
+	<p>Vis også total income, expenses, savings for budget og postings</p>
+
 	<form method="POST">
-        <input type="hidden" name="action" value="update-timeframe">
-        <select name="year">
-            
-		{% for year in ledger_years %}
-        <option value="{{ year.ledger_year }}">
-            {{ year.ledger_year }}
-        </option>
-        {% endfor %}
+		<input
+			type="hidden"
+			name="action"
+			value="update-timeframe" />
+		<select name="year">
+			{% for year in ledger_years %}
+			<option value="{{ year.ledger_year }}">{{ year.ledger_year }}</option>
+			{% endfor %}
 		</select>
 		<select name="month">
 			<option value="all">All year</option>
@@ -34,7 +44,7 @@ header %}
 			<option value="11">November</option>
 			<option value="12">December</option>
 		</select>
-        <button type="submit">Update</button>
+		<button type="submit">Update</button>
 	</form>
 
 	<ul class="list-group-flush">
