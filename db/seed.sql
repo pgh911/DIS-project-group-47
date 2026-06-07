@@ -38,7 +38,7 @@ VALUES
     ('Salary', 3, 2),
     ('Sidegigs', 3, 2),
     ('Investment Returns', 3, 2),
-    -- Tokyo Trip categories (lid = 3)
+    
     ('Flights', 1, 3),
     ('Accommodation', 1, 3),
     ('Transport', 1, 3),
