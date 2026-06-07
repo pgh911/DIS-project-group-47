@@ -18,3 +18,4 @@
 - [ ] Der skal regex til at lave pænere datoformat
 - [ ] Alle forms hvor man opretter et eller andet skal se skarpere ud
 - [ ] Test :: Alle
+- [ ] Når man laver en ny posting skal man også kunne vælge om det er en expense, saving, eller income
