@@ -33,7 +33,12 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
 
     ledger:list[Ledger] = get_ledger(LedgerId)
     ledger_years:list[LedgerYear] = list_budget_years(LedgerId)
-    summed_totals = get_summed_totals_fullyear(LedgerId, ledger_years[0].ledger_year)
+
+    if not ledger_years:
+        if ledger is None:
+            return "Ledger not found", 404
+        return render_template('pages/ledger.html', ledger=ledger, budget_entries=[], summed_totals=[], ledger_years=[])
+
     budget_entries:list[BudgetEntry] = list_budget_entries_detailed_fullyear(LedgerId, ledger_years[0].ledger_year)
     summed_totals:list[SummedTotal] = get_summed_totals_fullyear(LedgerId, ledger_years[0].ledger_year)
 
@@ -62,13 +67,18 @@ def postings(LedgerId: int) -> str | tuple[str, int] | WerkzeugResponse:
         action: str = request.form["action"]
 
         if action == "create_posting":
-            insert_posting(
-                lid=request.form["lid"],
-                cid=request.form["cid"],
-                amount=request.form["amount"],
-                description=request.form["description"],
-                posting_date=request.form["posting_date"]
-            )
+            try:
+                insert_posting(
+                    lid=request.form["lid"],
+                    cid=request.form["cid"],
+                    amount=request.form["amount"],
+                    description=request.form["description"],
+                    posting_date=request.form["posting_date"]
+                )
+            except ValueError as e:
+                categories: list[Category] = list_categories(LedgerId)
+                postings: list[Posting] = list_postings(LedgerId)
+                return render_template('pages/postings.html', ledger=ledger, postings=postings, categories=categories, error=str(e))
         elif action == "delete_posting":
             delete_posting(pid=int(request.form["pid"]))
 

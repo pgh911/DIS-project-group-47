@@ -8,6 +8,9 @@
 	{{ ledger_links(ledger) }}
 	<section>
 		<h2>Postings</h2>
+		{% if error %}
+		<div class="alert alert-danger">{{ error }}</div>
+		{% endif %}
 		{% from "components/posting/create_posting.html" import create_posting_form%}
 
 		{{ create_posting_form(ledger, categories) }}
