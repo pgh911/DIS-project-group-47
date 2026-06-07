@@ -3,7 +3,7 @@
 - [ ] Overblik skal laves færdig :: Thomas
 - [x] Der skal på alle sider være tekst som beskriver hvad der foregår :: Jakob
 - [ ] Der skal laves mere stock data som indsættes når db initialiseres :: Valdemar
-- [ ] Der skal laves E/R diagram :: Christian
+- [x] Der skal laves E/R diagram :: Christian
 - [ ] README.md :: Valdemar
     - [ ] Compilation instruktioner (ikke docker)
     - [ ] Beskriv projektet meget kort
