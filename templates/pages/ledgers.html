@@ -1,18 +1,23 @@
-{% from "components/ledgers/ledger.html" import ledger %} {% extends "layout.html" %}
-{% from "components/ledgers/new_ledger.html" import new_ledger %}
-
-{% block title %} Ledger | {ledger.ledger_name}{% endblock %}
-
-{% block content %}
-
+{% from "components/ledgers/ledger.html" import ledger %} {% extends
+"layout.html" %} {% from "components/ledgers/new_ledger.html" import new_ledger
+%} {% block title %} Ledger | {ledger.ledger_name}{% endblock %} {% block
+content %}
 
 <div class="px-5">
-  {% from "components/header.html" import header %} {{ header("Ledgers") }}
+	{% from "components/header.html" import header %} {{ header("Ledgers") }}
 
-  <div class="d-flex flex-row flex-wrap w-100 gap-3">
-    {% for l in ledgers %} {{ ledger(l) }} {% endfor %}
-	{{ new_ledger("")}}
-  </div>
+	<div class="card my-3">
+		<div class="card-body">
+			On this page you can create <b>ledgers</b>. <br>
+      A ledger contains a <b>budget</b> and a list of <b>postings</b>.<br>
+      The <b>budget</b> and the list of <b>postings</b> share <b>categories</b>. <br>
+      The ledger is initialised with a few of these. 
+		</div>
+	</div>
+
+	<div class="d-flex flex-row flex-wrap w-100 gap-3">
+		{% for l in ledgers %} {{ ledger(l) }} {% endfor %} {{ new_ledger("")}}
+	</div>
 </div>
 
 {% endblock %}

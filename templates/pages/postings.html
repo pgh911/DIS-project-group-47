@@ -1,4 +1,14 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block title %}Ledger | {ledger.ledger_name}{%
+endblock %} {% from "components/ledgers/ledger_links.html" import ledger_links
+%} {% block content %}
+<h1>Ledger: {{ ledger.ledger_name }}</h1>
+<div class="card my-3">
+	<div class="card-body">
+		On this page you can write down your <i>actual</i> spending. <br />
+		Each entry corresponds to a transaction. Note the transaction date and amount, and assign a <b>category</b>. <br>
+		New categories can be created in the <b>budget</b>.
+	</div>
+</div>
 
 {% block title %}Ledger | {ledger.ledger_name}{% endblock %} 
 {% from "components/ledgers/ledger_links.html" import ledger_links %} 
@@ -19,4 +29,3 @@
 			{{ posting_table(postings) }}	
 		</ul>
 	</section>
-{% endblock %}
