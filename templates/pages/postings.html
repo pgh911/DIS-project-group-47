@@ -1,6 +1,8 @@
-{% extends "layout.html" %} {% block title %}Ledger | {ledger.ledger_name}{%
-endblock %} {% from "components/ledgers/ledger_links.html" import ledger_links
-%} {% block content %}
+{% extends "layout.html" %} 
+
+{% block title %}Ledger | {ledger.ledger_name} {% endblock %} 
+{% from "components/ledgers/ledger_links.html" import ledger_links %} 
+{% block content %}
 <h1>Ledger: {{ ledger.ledger_name }}</h1>
 <div class="card my-3">
 	<div class="card-body">
@@ -9,12 +11,6 @@ endblock %} {% from "components/ledgers/ledger_links.html" import ledger_links
 		New categories can be created in the <b>budget</b>.
 	</div>
 </div>
-
-{% block title %}Ledger | {ledger.ledger_name}{% endblock %} 
-{% from "components/ledgers/ledger_links.html" import ledger_links %} 
-{% block content %}
-	<h1>Ledger: {{ ledger.ledger_name }} </h1>
-	<hr />
 	{{ ledger_links(ledger) }}
 	<section>
 		<h2>Postings</h2>
@@ -29,3 +25,4 @@ endblock %} {% from "components/ledgers/ledger_links.html" import ledger_links
 			{{ posting_table(postings) }}	
 		</ul>
 	</section>
+{% endblock %}
