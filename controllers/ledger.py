@@ -137,6 +137,18 @@ def postings(LedgerId: int) -> str | tuple[str, int] | WerkzeugResponse:
     
     categories: list[Category] = list_categories(LedgerId)
     postings: list[Posting] = list_postings(LedgerId)
+    type_id = request.args.get("type_name", "all")
+
+    categories = list_categories(LedgerId)
+    postings = list_postings(LedgerId)
+
+    if type_id != "all":
+        filtered_postings = []
+        for i in postings:
+            if i.type_name == type_id:
+                filtered_postings.append(i)
+
+        postings = filtered_postings
     return render_template('pages/postings.html', ledger=ledger, postings=postings, categories=categories)
 
 @bp.route('/<int:LedgerId>/budget', methods=['GET', 'POST'])

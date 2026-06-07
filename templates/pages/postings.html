@@ -12,8 +12,21 @@
 		New categories can be created in the <b>budget</b>.
 	</div>
 </div>
+
 <section>
+	
 	<h2>Postings</h2>
+	<th>Filter by type</th>
+	<form method="GET">
+    <select name="type_name">
+        <option value="all">All</option>
+        <option value="expense">Expenses</option>
+        <option value="saving">Savings</option>
+        <option value="income">Income</option>
+    </select>
+
+    <button type="submit">Filter</button>
+</form>
 	{% if error %}
 	<div class="alert alert-danger">{{ error }}</div>
 	{% endif %}
