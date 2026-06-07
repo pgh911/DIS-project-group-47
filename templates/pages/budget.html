@@ -1,24 +1,31 @@
 {% extends "layout.html" %} {% block title %} Budget | {{ ledger.ledger_name }}
 {% endblock %} {% from "components/ledgers/ledger_links.html" import
-ledger_links %} {% block content %}
-
-{% from "components/budget/create_category.html" import create_category_form %} 
+ledger_links %} {% block content %} {% from
+"components/budget/create_category.html" import create_category_form %}
 <div>
 	<h1>Ledger: {{ ledger.ledger_name }}</h1>
-	<hr />
+	<div class="card my-3">
+		<div class="card-body">
+			On this page you can edit your yearly <b>budget</b>. <br />
+			For each month and <b>category</b>, note your projected spending. <br>
+			The budget is compared to your <i>actual</i> spending in the <b>ledger overview</b>.
+		</div>
+	</div>
 	{{ ledger_links(ledger) }}
 	<section>
 		<h2>Budget</h2>
 		<div class="container">
-			{% from "components/budget/year_table.html" import year_table %}
+			{% from "components/budget/year_table.html" import year_table %} {{
+			create_category_form(ledger, categories) }}
 
-			{{ create_category_form(ledger, categories) }}
-			
 			<div class="px-0 mb-4">
 				<form
 					method="POST"
 					class="d-flex align-items-center gap-2">
-					<input type="hidden" name="action" value="add-year">
+					<input
+						type="hidden"
+						name="action"
+						value="add-year" />
 					<input
 						class="form-control"
 						id="year-selector"
@@ -37,9 +44,8 @@ ledger_links %} {% block content %}
 				</form>
 			</div>
 			<div>
-				{% for b in budget_years %} 
-				{{ year_table(b, budget, categories) }} 
-				{% endfor %}
+				{% for b in budget_years %} {{ year_table(b, budget, categories) }} {%
+				endfor %}
 			</div>
 		</div>
 	</section>
