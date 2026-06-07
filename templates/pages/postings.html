@@ -1,7 +1,10 @@
-{% extends "layout.html" %} {% block title %}Ledger | {ledger.ledger_name}{%
-endblock %} {% from "components/ledgers/ledger_links.html" import ledger_links
-%} {% block content %}
+{% extends "layout.html" %}
+{% block title %}Ledger | {ledger.ledger_name}{% endblock %}
+{% from "components/ledgers/ledger_links.html" import ledger_links %}
+{% block content %}
 <h1>Ledger: {{ ledger.ledger_name }}</h1>
+<hr />
+{{ ledger_links(ledger) }}
 <div class="card my-3">
 	<div class="card-body">
 		On this page you can write down your <i>actual</i> spending. <br />
@@ -9,23 +12,17 @@ endblock %} {% from "components/ledgers/ledger_links.html" import ledger_links
 		New categories can be created in the <b>budget</b>.
 	</div>
 </div>
+<section>
+	<h2>Postings</h2>
+	{% if error %}
+	<div class="alert alert-danger">{{ error }}</div>
+	{% endif %}
+	{% from "components/posting/create_posting.html" import create_posting_form%}
 
-{% block title %}Ledger | {ledger.ledger_name}{% endblock %} 
-{% from "components/ledgers/ledger_links.html" import ledger_links %} 
-{% block content %}
-	<h1>Ledger: {{ ledger.ledger_name }} </h1>
-	<hr />
-	{{ ledger_links(ledger) }}
-	<section>
-		<h2>Postings</h2>
-		{% if error %}
-		<div class="alert alert-danger">{{ error }}</div>
-		{% endif %}
-		{% from "components/posting/create_posting.html" import create_posting_form%}
-
-		{{ create_posting_form(ledger, categories) }}
-		<ul>
-			{% from "components/posting/posting_table.html" import posting_table %} 
-			{{ posting_table(postings) }}	
-		</ul>
-	</section>
+	{{ create_posting_form(ledger, categories) }}
+	<ul>
+		{% from "components/posting/posting_table.html" import posting_table %}
+		{{ posting_table(postings) }}
+	</ul>
+</section>
+{% endblock %}
