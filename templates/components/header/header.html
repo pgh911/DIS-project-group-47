@@ -2,17 +2,27 @@
 {% from "components/header/backbutton.html" import back %}
 
 {% macro header() %}
-<header class="d-flex">
+<header class="d-flex head">
     <div class="d-flex">
-        {% if request.path != '/ledgers' %}<div width="20px" height="20px">{{back()}}</div>{% endif %}
-        <h1 class="text-xl">Budget app</h1>
+        {% if request.path != '/ledgers' %}<div width="20px" height="20px">{{back()}}</div>
+        {% endif %}
+        
+        <h1 class="">Budget app</h1>
     </div>
         
     <div class="position-absolute top-0 end-0 pt-2 px-3">{{navbar()}}</div>
-
-
-   
-    
-
 </header>
+
+<style>
+.head {
+    font-size: medium;
+
+}    
+.pos-absolute {
+    position: absolute;
+    padding-left: 63px;
+    
+}
+</style>
+
 {% endmacro %}

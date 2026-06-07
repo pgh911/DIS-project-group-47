@@ -5,14 +5,13 @@ header %}
 <hr />
 {% from "components/ledgers/ledger_links.html" import ledger_links %}
 {% from "components/budget/create_category.html" import create_category_form %}
+{{ ledger_links(ledger) }}
 <div class="card my-3">
 	<div class="card-body">
 		On this page you can see an overview of your ledger. <br>
 		The value of the <b>postings</b> is compared to the <b>budget</b>. <br>
 	</div>
 </div>
-
-{{ ledger_links(ledger) }}
 
 <div class="category-section">
 	<h3>Categories</h3>
