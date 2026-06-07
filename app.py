@@ -24,7 +24,7 @@ def register() -> str | int | WerkzeugResponse:
     if request.method == "POST":
         print(request.form)
         if request.form['password'] != request.form['password_repeat']:
-            return 401 
+            return render_template("pages/register.html", error="Passwords do not match")
         
         password: str = request.form['password']
         username: str = request.form['email']
