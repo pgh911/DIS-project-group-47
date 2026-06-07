@@ -50,14 +50,39 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
         elif request.form["month"]:
             summed_totals = get_summed_totals(LedgerId, request.form["year"], request.form["month"])
             budget_entries:list[BudgetEntry] = list_budget_entries_detailed(LedgerId, request.form["year"], request.form["month"])
-    
 
-    print(budget_entries)
+    
+    percentList = []
+
+    for budget in budget_entries:
+        percentage = 0
+        sumTotal = 0
+
+        for total in summed_totals:
+            if (
+                budget.category_name == total.category_name
+                and budget.type_name == total.type_name
+            ):
+                if budget.amount > 0:
+                    percentage = round(
+                        (abs(total.total_amount / budget.amount)) * 100,
+                        2
+                    )
+                sumTotal = total.total_amount
+                break
+
+        percentList.append({
+            "category_name": budget.category_name,
+            "budget": budget.amount,
+            "totalSum": sumTotal,
+            "percentage": percentage
+        })
     return render_template('pages/ledger.html', 
                            ledger=ledger, 
                            summed_totals=summed_totals,
                            ledger_years=ledger_years,
-                           budget_entries=budget_entries)
+                           budget_entries=budget_entries,
+                           percentages = percentList)
 
 @bp.route('/<int:LedgerId>/postings', methods=['GET', 'POST'])
 @login_required

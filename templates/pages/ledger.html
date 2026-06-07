@@ -58,12 +58,33 @@ header %}
 	</ul>
 	<ul class="list-group-flush">
 		<b>Budget</b>
-		{% for entry in budget_entries %}
+		{% for entry in percentages %}
 		<li>
 			<span>{{ entry.category_name }}</span>
-			<small>{{ entry.amount }}</small>
+			<small>{{ entry.budget }}</small>
+            <small>{{ entry.percentage }}</small>
 		</li>
 		{% endfor %}
 	</ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Postings</th>
+                <th>Budget</th>
+                <th>% Used</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in percentages %}
+            <tr>
+                <td>{{ entry.category_name }}</td>
+                <td>{{ entry.totalSum }}</td>
+                <td>{{ entry.budget }}</td>
+                <td>{{ entry.percentage }}%</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
