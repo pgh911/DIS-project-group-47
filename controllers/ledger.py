@@ -33,11 +33,12 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
 
     ledger:list[Ledger] = get_ledger(LedgerId)
     ledger_years:list[LedgerYear] = list_budget_years(LedgerId)
+    idList = [0,0,0,0,0,0]
 
     if not ledger_years:
         if ledger is None:
             return "Ledger not found", 404
-        return render_template('pages/ledger.html', ledger=ledger, budget_entries=[], summed_totals=[], ledger_years=[])
+        return render_template('pages/ledger.html', ledger=ledger, budget_entries=[], summed_totals=[], ledger_years=[],idList = idList)
 
     budget_entries:list[BudgetEntry] = list_budget_entries_detailed_fullyear(LedgerId, ledger_years[0].ledger_year)
     summed_totals:list[SummedTotal] = get_summed_totals_fullyear(LedgerId, ledger_years[0].ledger_year)

@@ -43,8 +43,7 @@
 				aria-label="Select category">
 				{% for category in categories %}
 				<option 
-					value="{{ category.cid }}"
-    				data-type="{{ category.type_id }}">
+					value="{{ category.cid }}">
     				{{ category.category_name }}
 				</option>
 				{% endfor %}
