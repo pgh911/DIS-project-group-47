@@ -5,7 +5,6 @@ header %}
 <hr />
 {% from "components/ledgers/ledger_links.html" import ledger_links %}
 {% from "components/budget/create_category.html" import create_category_form %}
-{{ ledger_links(ledger) }}
 <div class="card my-3">
 	<div class="card-body">
 		On this page you can see an overview of your ledger. <br>
@@ -13,11 +12,10 @@ header %}
 	</div>
 </div>
 
+{{ ledger_links(ledger) }}
+
 <div class="category-section">
 	<h3>Categories</h3>
-
-	<p>til Thomas - vis beløb brugt pr. kategori, budget pr. kategori. Hvor mange procent af budgettet er faktisk nået? Hvor mange penge er der tilbage i budgettet.</p>
-	<p>Vis også total income, expenses, savings for budget og postings</p>
 
 	<form method="POST">
 		<input
@@ -46,8 +44,6 @@ header %}
 		</select>
 		<button type="submit">Update</button>
 	</form>
-
-
 	<h3>Expenses</h3>
 	<table class="table">
 		<thead>
