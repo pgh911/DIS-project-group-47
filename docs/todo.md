@@ -1,4 +1,4 @@
-1
+1 (skal gøres)
 ---
 - [ ] Overblik skal laves færdig :: Thomas
 - [x] Der skal på alle sider være tekst som beskriver hvad der foregår :: Jakob
@@ -12,10 +12,14 @@
 - [ ] Regex til passwrd :: Valdemar
 
 
-2
+2 (ikke så vigtige)
 ---
-- [ ] Der skal være beskrivelser på alle sider om hvad det betyder
-- [ ] Der skal regex til at lave pænere datoformat
-- [ ] Alle forms hvor man opretter et eller andet skal se skarpere ud
+- [ ] Der skal regex til at lave pænere datoformat :: Thomas
+- [ ] Alle forms hvor man opretter et eller andet skal se skarpere ud :: Valdemar
 - [ ] Test :: Alle
-- [ ] Når man laver en ny posting skal man også kunne vælge om det er en expense, saving, eller income
+- [ ] Når man laver en ny posting skal man også kunne vælge om det er en expense, saving, eller income :: Thomas
+
+
+3 (whatever)
+---
+- [ ] Fjern ubrugte funktioner
