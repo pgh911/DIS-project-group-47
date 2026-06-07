@@ -1,4 +1,4 @@
-# ER Diagram
+# ER Diagram using mermaid (https://github.com/mermaid-js/mermaid)
 
 ```mermaid
 erDiagram
@@ -55,14 +55,20 @@ erDiagram
         INTEGER month
     }
 
-    users ||--o{ ledgers : ""
-    ledgers ||--o{ categories : ""
-    ledgers ||--o{ postings : ""
-    ledgers ||--o{ ledger_years : ""
-    ledgers ||--o{ budget_entries : ""
-    category_types ||--o{ categories : ""
-    category_types ||--o{ budget_entries : ""
-    categories ||--o{ postings : ""
-    categories ||--o{ budget_entries : ""
-    ledger_years ||--o{ budget_entries : ""
+    users ||--o{ ledgers : "user_id"
+    ledgers ||--o{ categories : "lid"
+    ledgers ||--o{ postings : "lid"
+    ledgers ||--o{ ledger_years : "lid"
+    ledgers ||--o{ budget_entries : "lid"
+    category_types ||--o{ categories : "type_id"
+    category_types ||--o{ budget_entries : "type_id"
+    categories ||--o{ postings : "cid"
+    categories ||--o{ budget_entries : "cid"
+    ledger_years ||--o{ budget_entries : "year_id"
 ```
+
+## Legend
+PK = Primary Key
+FK = Foreign Key
+UK = Unique Key
+`\|\|--o{` = One-to-many relationship
