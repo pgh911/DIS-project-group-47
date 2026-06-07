@@ -1,9 +1,9 @@
 {% extends "layout.html" %} {% block title %}Ledger | {{ ledger.ledger_name }}{%
 endblock %} {% block content %} {% from "components/header/header.html" import
 header %}
+<h1>Ledger: {{ ledger.ledger_name }}</h1>
 <hr />
 {% from "components/ledgers/ledger_links.html" import ledger_links %}
-<h1>Ledger: {{ ledger.ledger_name }}</h1>
 <div class="card my-3">
 	<div class="card-body">
 		On this page you can see an overview of your ledger. <br>
