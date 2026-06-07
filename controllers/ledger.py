@@ -61,6 +61,12 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
     for budget in budget_entries:
         percentage = 0
         sumTotal = 0
+        if(budget.type_id == 1):
+            idBOne = idBOne + budget.amount
+        elif (budget.type_id == 2):
+            idBTwo = idBTwo + budget.amount
+        elif (budget.type_id == 3) :
+            idBThree = idBThree + budget.amount
         for total in summed_totals:
             if (
                 budget.category_name == total.category_name
@@ -68,13 +74,10 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
             ):
                 if(budget.type_id == 1):
                     idOne = idOne + total.total_amount
-                    idBOne = idBOne + budget.amount
                 elif (budget.type_id == 2):
                     idTwo = idTwo + total.total_amount
-                    idBTwo = idBTwo + budget.amount
                 elif (budget.type_id == 3) :
                     idThree = idThree + total.total_amount
-                    idBThree = idBThree + budget.amount
 
                 if budget.amount > 0:
                     percentage = round(
