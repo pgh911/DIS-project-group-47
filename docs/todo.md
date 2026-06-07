@@ -10,6 +10,7 @@
     - [ ] Beskriv hvor der findes REGEX, VIEWS og TRIGGERS
     - [ ] Link til git projekt
 - [ ] Regex til passwrd :: Valdemar
+- [ ] Datoer som sendes til DB skal være `yyyy-mm-dd`
 
 
 2 (ikke så vigtige)
@@ -18,6 +19,7 @@
 - [ ] Alle forms hvor man opretter et eller andet skal se skarpere ud :: Valdemar
 - [ ] Test :: Alle
 - [ ] Når man laver en ny posting skal man også kunne vælge om det er en expense, saving, eller income :: Thomas
+- [ ]  Når man laver et nyt år skal siden refreshe
 
 
 3 (whatever)
