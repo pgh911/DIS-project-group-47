@@ -4,7 +4,7 @@
 - [ ] has compilation/execution instructions
 - [ ] has interaction instructions
 - [x] uses SQL or similar (e.g., SQL Alchemy)
-- [ ] has regex (or grammar)
+- [x] has regex (or grammar)
 - [ ] app runs and works
 - [ ] AI declaration
 - [ ] bonus points (free text, can be omitted)

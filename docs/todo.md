@@ -6,11 +6,11 @@
 - [x] Der skal laves E/R diagram :: Christian
 - [ ] README.md :: Valdemar
     - [ ] Compilation instruktioner (ikke docker)
-    - [ ] Beskriv projektet meget kort
+    - [x] Beskriv projektet meget kort
     - [ ] Beskriv hvor der findes REGEX, VIEWS og TRIGGERS
     - [ ] Link til git projekt
 - [ ] Regex til passwrd :: Valdemar
-- [ ] Datoer som sendes til DB skal være `yyyy-mm-dd`
+- [x] Datoer som sendes til DB skal være `yyyy-mm-dd`
 
 
 2 (ikke så vigtige)
