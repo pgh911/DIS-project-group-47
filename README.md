@@ -7,7 +7,11 @@ We have implemented a budget app, where you can set your budget, set your spendi
 
 The ER diagram can be found in /docs.
 
-The RegEx can be found in the /register page, where we recognize an email on the form of [user]@group47.[domain] and [user]@gruppe47.[domain]. 
+
+## Regex
+There is regex on the /register page, where we recognize an email on the form of [user]@group47.[domain] and [user]@gruppe47.[domain]. There is also regex for the password, where it must be 8 characters long and have a special character
+
+
 
 
 
@@ -33,3 +37,6 @@ Here you must use an email in the form [user]@group47.[domain] or [user]@gruppe4
 Used views are found in `db/views.sql`.
 
 Used trigger are found in `db/triggers.sql`.
+
+## Github Link
+https://github.com/pgh911/DIS-project-group-47
