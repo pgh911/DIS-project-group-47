@@ -9,7 +9,7 @@ The ER diagram can be found in /docs.
 
 
 ## Regex
-There is regex on the /register page, where we recognize an email on the form of [user]@group47.[domain] and [user]@gruppe47.[domain]. There is also regex for the password, where it must be 8 characters long and have a special character
+There is regex on the /register page, on line 24, 28 and 34
 
 
 
