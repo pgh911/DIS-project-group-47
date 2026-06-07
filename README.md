@@ -1,5 +1,6 @@
 # DIS-project-group-47
 Group 47 project for the Databases and Information Systems course 2026
+Made by Jakob Schoubye Poulsen (dcz800), Christian Laustsen pgh911, Thomas Fortson (wkd856), , Valdemar Winther (hmd687)
 
 
 ## About the project
