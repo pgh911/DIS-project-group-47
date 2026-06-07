@@ -16,3 +16,4 @@ python3 app.py
 ```
 
 You can either use the default user with username: "user", and password: "password", or use the register page to create a user. Here you must use an email in the form [user]@group47.[domain] or [user]@gruppe47.[domain], with a password that is atleast 8 characters long and has a special character.
+

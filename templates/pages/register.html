@@ -27,8 +27,10 @@
 
 				<p class="mb-1">Password</p>
 				<input type="password" name="password" required minlength="8"
+					pattern=".*[^A-Za-z0-9]+.*"
 					class="form-control mb-3" />
 				<input type="password" id="password_repeat" name="password_repeat" required minlength="8"
+					pattern=".*[^A-Za-z0-9]+.*"
 					class="form-control mb-3" />
 
 				<button type="submit" class="btn btn-dark w-100 mb-2">
