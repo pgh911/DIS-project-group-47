@@ -9,9 +9,6 @@ VALUES
     ('Bank Account', 1),
     ('Cash Wallet', 1),
     ('Tokyo trip', 1),
-    ('Home Budget', 1),
-    ('Travel Fund', 1),
-    ('Monthly Budget', 1);
 
 INSERT INTO
     category_types (type_id, type_name)

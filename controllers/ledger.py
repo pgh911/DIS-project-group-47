@@ -68,13 +68,13 @@ def ledger(LedgerId: int) -> str | tuple[str, int]:
             ):
                 if(budget.type_id == 1):
                     idOne = idOne + total.total_amount
-                    idOne = idBOne + budget.amount
+                    idBOne = idBOne + budget.amount
                 elif (budget.type_id == 2):
                     idTwo = idTwo + total.total_amount
-                    idTwo = idBTwo + budget.amount
+                    idBTwo = idBTwo + budget.amount
                 elif (budget.type_id == 3) :
                     idThree = idThree + total.total_amount
-                    idThree = idBThree + budget.amount
+                    idBThree = idBThree + budget.amount
 
                 if budget.amount > 0:
                     percentage = round(
